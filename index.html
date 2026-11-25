@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Montado Metabolism</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow" id="place"></p>
+    <h1>Montado Metabolism</h1>
+    <p class="lede" id="intro"></p>
+  </header>
+
+  <div class="bar" id="ecobar" hidden><div class="group"><span class="lab">Ecosystem</span><select id="ecosel" aria-label="Ecosystem"></select></div></div>
+  <div class="bar"><div class="group" id="scenarios"><span class="lab">Scenario</span></div></div>
+  <div class="bar">
+    <div class="group" id="chips"><span class="lab">Flows</span></div>
+    <div class="group"><button class="chap" id="motion" aria-pressed="true">Motion on</button></div>
+  </div>
+  <div class="bar"><div class="group" id="chapters"><span class="lab">Stories</span></div></div>
+
+  <div class="stage">
+    <div>
+      <div class="mapwrap"><svg id="map" role="img" aria-label="Flow map of an ecosystem: energy, nitrogen, phosphorus and seeds moving between plants, fungi, microbes, insects, birds and mammals"></svg></div>
+      <p class="readout" id="readout" aria-live="polite"></p>
+      <div class="legend" aria-hidden="true">
+        <span><i style="background:var(--plant)"></i>plant</span>
+        <span><i style="background:var(--fungus)"></i>fungus or microbe</span>
+        <span><i style="background:var(--invert)"></i>invertebrate</span>
+        <span><i style="background:var(--bird)"></i>bird</span>
+        <span><i style="background:var(--mammal)"></i>mammal</span>
+        <span><i class="sq" style="background:var(--pool)"></i>store or source</span>
+      </div>
+      <div class="legend" aria-hidden="true">
+        <span><svg width="34" height="8"><line x1="1" y1="4" x2="33" y2="4" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></svg>documented</span>
+        <span><svg width="34" height="8"><line x1="1" y1="4" x2="33" y2="4" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" opacity=".5"/></svg>likely</span>
+        <span><svg width="34" height="8"><line x1="1" y1="4" x2="33" y2="4" stroke="var(--ink)" stroke-width="3" stroke-dasharray="10 6"/></svg>debated</span>
+        <span><svg width="34" height="8"><line x1="1" y1="4" x2="33" y2="4" stroke="var(--ink)" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/></svg>unknown</span>
+        <span><svg width="34" height="12"><line x1="1" y1="6" x2="33" y2="6" stroke="var(--ink)" stroke-width="7" opacity=".14" stroke-linecap="round"/><line x1="1" y1="6" x2="33" y2="6" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/></svg>shadow shows the reference state</span>
+      </div>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+
+  <div class="status" id="status" hidden></div>
+  <p class="notes" id="notes"></p>
+  <p class="notes">Line weights are relative guesses for comparing flows, not measured fluxes. The scenario model is a toy: it multiplies each flow by the supply of its source and marks an organism short when a type of input it receives falls, using only documented and likely flows. It shows direction and exposure, never biomass. Real food webs have alternatives that are missing here, and debated and unknown flows stay out of the arithmetic.</p>
+</div>
+
+<script src="data/montado.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
