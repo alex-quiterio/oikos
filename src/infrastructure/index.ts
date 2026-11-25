@@ -1,0 +1,1 @@
+export { StaticCatalogue } from './StaticCatalogue';

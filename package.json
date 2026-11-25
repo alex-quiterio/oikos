@@ -1,0 +1,44 @@
+{
+  "name": "ecosystem-metabolism",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Explorable maps of energy, nutrient and seed flows through ecosystems, with scenarios, keystone analysis and marked unknowns.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "bun test tests/unit && vitest run",
+    "typecheck": "vue-tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "bun run typecheck && bun run lint && bun run format:check && bun run test",
+    "artifact": "ARTIFACT=1 bun run build && bun scripts/artifact-fragment.ts",
+    "test:unit": "bun test tests/unit",
+    "test:ui": "vitest run"
+  },
+  "dependencies": {
+    "pinia": "^4.1.0",
+    "vue": "^3.5.46"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/bun": "^1.4.5",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "@vue/test-utils": "^2.6.0",
+    "eslint": "^10.15.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.12.1",
+    "globals": "^17.14.0",
+    "happy-dom": "^21.0.4",
+    "prettier": "^3.10.1",
+    "typescript": "~5.9.0",
+    "typescript-eslint": "^8.74.0",
+    "vite": "^8.3.8",
+    "vite-plugin-singlefile": "^2.3.4",
+    "vitest": "^5.1.2",
+    "vue-tsc": "^3.3.14"
+  }
+}
