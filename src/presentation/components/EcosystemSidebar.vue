@@ -9,7 +9,7 @@ const peek = ref(false);
 let closing: ReturnType<typeof setTimeout> | undefined;
 const expanded = computed(() => store.sidebarOpen || peek.value);
 
-const GROUPS = ['Land', 'Land and sea', 'Marine'] as const;
+const GROUPS = ['Land', 'Urban', 'Land and sea', 'Marine'] as const;
 const groups = computed(() =>
   GROUPS.map(habitat => ({
     habitat,

@@ -17,7 +17,7 @@ export interface EdgeView {
   readonly to: OrganismId;
   readonly type: RelationType;
   readonly isControl: boolean;
-  readonly kind?: 'release' | 'pressure';
+  readonly kind?: 'release' | 'pressure' | 'balance';
   readonly evidence: Evidence;
   readonly modelled: boolean;
   readonly label: string;

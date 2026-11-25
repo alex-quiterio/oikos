@@ -6,14 +6,17 @@
 
 <p align="center"><em>The household accounts of living places.</em></p>
 
+<p align="center"><a href="https://alex-quiterio.github.io/oikos/"><b>Open the live atlas</b></a></p>
+
 Explorable maps of how energy, nitrogen, phosphorus and seeds move through ecosystems. From root fungi to lynx, from kelp to otters, from the ocean into the forest by way of a salmon. The name is the Greek root of both _ecology_ and _economy_: the household.
 
-Ten ecosystems so far:
+Eleven ecosystems so far:
 
 | Ecosystem                       | Habitat      | What it is about                                                              |
 | ------------------------------- | ------------ | ----------------------------------------------------------------------------- |
 | Cork oak montado                | Land         | Root fungi, acorns, rabbits, and who depends on whom                          |
 | Veluwe heath and forest         | Land         | Heather, grazers, a returning wolf, and the nitrogen falling from the sky     |
+| Westerpark pond and lawns       | Urban        | A city-park pond: herons, bread, and the clear-or-green tipping point         |
 | East African savanna            | Land         | Grass, herds, fire, elephants, termites and vultures                          |
 | Amazon upland forest            | Land         | Poor soil, fast recycling, and Saharan dust as a phosphorus gift              |
 | Arctic tundra                   | Land         | Lemming cycles, scarce nitrogen, and frozen carbon beginning to thaw          |

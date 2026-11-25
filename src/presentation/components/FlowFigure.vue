@@ -42,9 +42,11 @@ const kindText = computed(() => {
       eco.value.flowLabels[e.type as 'energy'] ??
       FLOW_TYPES[e.type].name
     ).toLowerCase();
-  return e.kind === 'release'
-    ? 'control: when the predator falls, the prey rises'
-    : 'control: when this rises, the other is pressed down';
+  if (e.kind === 'release')
+    return 'control: when the first falls, the second rises';
+  if (e.kind === 'balance')
+    return 'control: the second rises when the first falls and falls when it rises';
+  return 'control: when the first rises, the second is pressed down';
 });
 </script>
 

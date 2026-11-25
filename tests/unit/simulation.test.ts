@@ -178,3 +178,25 @@ describe('stress levels', () => {
     expect(h.byStress.surge).toBeGreaterThan(0);
   });
 });
+
+describe('balance controls', () => {
+  const pond = byId('westerpark');
+
+  test('fewer bottom-feeding fish let water fleas clear the algae', () => {
+    const sim = simulate(pond, { abundance: { roach: 0.2 } });
+    expect(sim.supply.zoo).toBeGreaterThan(1.05);
+    expect(sim.supply.algae).toBeLessThan(0.85);
+  });
+
+  test('more bottom-feeding fish push algae up and plants down', () => {
+    const sim = simulate(pond, {
+      abundance: { roach: 1.0, algae: 1.7 },
+    });
+    expect(sim.supply.macro).toBeLessThan(0.7);
+  });
+
+  test('losing water fleas lets algae bloom', () => {
+    const sim = simulate(pond, { removed: new Set(['zoo']) });
+    expect(sim.supply.algae).toBeGreaterThan(1.2);
+  });
+});

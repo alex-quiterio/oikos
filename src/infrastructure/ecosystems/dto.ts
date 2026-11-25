@@ -25,7 +25,7 @@ export type FlowTuple = [
 export type ControlTuple = [
   from: string,
   to: string,
-  kind: 'release' | 'pressure',
+  kind: 'release' | 'pressure' | 'balance',
   strength: number,
   evidence: EvidenceCode,
   label: string,

@@ -26,7 +26,7 @@ The most useful contributions are corrections, sources and honest unknowns. A fl
 - **weight**: 1 to 5, a relative guess for comparison.
 - **evidence**: `E` documented, `L` likely, `D` debated, `U` unknown.
 - **Flow id**: `from>to:type`. **Control id**: `from>to:ctl`.
-- **Control `release`**: when `from` (a predator) falls, `to` (its prey) rises. **`pressure`**: when `from` rises above its reference level, `to` is pressed down. These are not flows. Use them for top-down effects, competition and overgrowth.
+- **Control `release`**: when `from` (a predator or grazer) falls, `to` rises. **`pressure`**: when `from` rises above its reference level, `to` is pressed down. **`balance`**: both, for pairs where each direction is documented, such as water fleas and algae. These are not flows. Use them for top-down effects, competition and overgrowth.
 - **`ks`**: what the literature claims about the species. `k` is `keystone`, `foundation`, `vector`, `symbiont`, `engineer` or `disperser`. `s` is `documented`, `proposed` or `contested`.
 - **Scenario**: `abundance` multiplies an organism (`0` removes it), `factors` multiplies a flow or control by id, `assumes` is `[evidence, text]` pairs, and `unknowns` is plain sentences. The first scenario is the reference and stays empty.
 

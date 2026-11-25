@@ -2,6 +2,7 @@ export * from './dto';
 export { toAtlasEntry } from './mapper';
 export { montado } from './montado';
 export { veluwe } from './veluwe';
+export { westerpark } from './westerpark';
 export { savanna } from './savanna';
 export { amazon } from './amazon';
 export { tundra } from './tundra';

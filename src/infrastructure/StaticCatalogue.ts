@@ -11,6 +11,7 @@ import {
   tundra,
   veluwe,
   waddenSea,
+  westerpark,
 } from '@infrastructure/ecosystems';
 
 /** Adapter for the AtlasCatalogue port. Ecosystems are authored as typed data modules in this repository. */
@@ -19,6 +20,7 @@ export class StaticCatalogue implements AtlasCatalogue {
   private readonly entries: readonly AtlasEntry[] = [
     montado,
     veluwe,
+    westerpark,
     savanna,
     amazon,
     tundra,

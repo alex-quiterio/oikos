@@ -85,7 +85,9 @@ function networkOf(eco: Ecosystem): Network {
   }
   for (const c of eco.controls) {
     if (!isModelled(c.evidence)) continue;
-    (c.kind === 'release' ? releases : pressures).get(c.to)?.push(c);
+    // A balance control works both ways: the target rises when the source falls and falls when it rises.
+    if (c.kind !== 'pressure') releases.get(c.to)?.push(c);
+    if (c.kind !== 'release') pressures.get(c.to)?.push(c);
   }
   const stores = new Set(
     eco.organisms.filter(o => o.group === 'store').map(o => o.id),
@@ -167,10 +169,15 @@ export function simulate(
       factor(f.id) * at(f.from) * Math.max(1, at(f.to));
   const controlActivity: Record<string, number> = {};
   for (const c of eco.controls) {
-    controlActivity[c.id] =
+    const down = 1 - Math.min(at(c.from), 1);
+    const up = Math.max(0, at(c.from) - 1);
+    const moved =
       c.kind === 'release'
-        ? c.strength * factor(c.id) * (1 - Math.min(at(c.from), 1))
-        : c.strength * factor(c.id) * Math.max(0, at(c.from) - 1);
+        ? down
+        : c.kind === 'pressure'
+          ? up
+          : down + up;
+    controlActivity[c.id] = c.strength * factor(c.id) * moved;
   }
   const recruitment: Record<OrganismId, number> = {};
   for (const [id, ref] of net.reference) {

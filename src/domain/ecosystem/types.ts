@@ -66,7 +66,7 @@ export interface Control {
   readonly id: ControlId;
   readonly from: OrganismId;
   readonly to: OrganismId;
-  readonly kind: 'release' | 'pressure';
+  readonly kind: 'release' | 'pressure' | 'balance';
   readonly strength: number;
   readonly evidence: Evidence;
   readonly label: string;
@@ -104,4 +104,4 @@ export interface OpenQuestion {
   readonly relatedIds: readonly string[];
 }
 
-export type Habitat = 'Land' | 'Marine' | 'Land and sea';
+export type Habitat = 'Land' | 'Urban' | 'Land and sea' | 'Marine';

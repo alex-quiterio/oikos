@@ -108,14 +108,14 @@ describe('App', () => {
     const w = mountApp();
     await nextTick();
     expect(w.find('.sidebar').classes()).toContain('open');
-    expect(w.findAll('.eco-item').length).toBe(10);
+    expect(w.findAll('.eco-item').length).toBe(11);
     await w.findAll('.eco-item')[1]!.trigger('click');
     expect(w.find('.sidebar').classes()).not.toContain('open');
     expect(w.findAll('.eco-item').length).toBe(0);
     expect(w.find('.rail-label').text()).toContain('Veluwe');
     expect(w.find('.shell').classes()).not.toContain('is-open');
     await w.find('.sidebar').trigger('mouseenter');
-    expect(w.findAll('.eco-item').length).toBe(10);
+    expect(w.findAll('.eco-item').length).toBe(11);
     expect(w.find('.sidebar').classes()).toContain('peek');
     await w.find('.sidebar').trigger('keydown', { key: 'Escape' });
     expect(w.findAll('.eco-item').length).toBe(0);
