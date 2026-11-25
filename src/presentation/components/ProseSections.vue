@@ -13,7 +13,14 @@ const store = useAtlasStore();
     </div>
     <div>
       <h2>Methods and limits</h2>
-      <p>
+      <p v-if="store.ecosystem.references.length">
+        Each flow has a relative weight from 1 to 5. Where a flow
+        cites a published work, its weight comes from that work's
+        numbers on a log scale, and the Evidence tab says which
+        values. The rest are the author's estimates. None are direct
+        measurements of fluxes.
+      </p>
+      <p v-else>
         Each flow has a relative weight from 1 to 5, set by the author
         from published descriptions. They are not measurements.
       </p>
