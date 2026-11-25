@@ -73,6 +73,22 @@ export function toAtlasEntry(dto: EcosystemDto): AtlasEntry {
     })),
     omitted: dto.omitted,
     care: dto.care,
+    teaching: dto.teach && {
+      bigIdea: dto.teach.bigIdea,
+      questions: dto.teach.questions.map(q => ({
+        title: q.t,
+        prompt: q.x,
+        look: q.look,
+        notice: q.notice,
+      })),
+      activities: dto.teach.activities.map(a => ({
+        title: a.t,
+        predict: a.predict,
+        notice: a.notice,
+        scenarioId: a.scenario,
+        remove: a.remove,
+      })),
+    },
   });
   const nodes: Record<string, NodeLayout> = {};
   for (const [id, n] of Object.entries(dto.nodes))

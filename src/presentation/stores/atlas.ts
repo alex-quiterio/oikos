@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import {
   isModelled,
   stressOf,
+  type Activity,
   type Control,
   type Evidence,
   type Flow,
@@ -41,7 +42,7 @@ export const useAtlasStore = defineStore('atlas', () => {
   const scenarioId = ref(entries[0]?.ecosystem.reference.id ?? '');
   const selectedId = ref<OrganismId | null>(null);
   const storyIndex = ref(0);
-  const tab = ref<PanelTab>('inspect');
+  const tab = ref<PanelTab>('teach');
   const lens = ref(false);
   const showUnknown = ref(true);
   const motion = ref(
@@ -144,6 +145,8 @@ export const useAtlasStore = defineStore('atlas', () => {
     const want = new Set(match.removed);
     return removed.value.every(id => want.has(id)) ? k : null;
   });
+  /** The ecosystem read as energy and nutrient flows. */
+  const flows = computed(() => service.flows(ecosystem.value));
   const keystones = computed(() =>
     lens.value || tab.value === 'keystones'
       ? service.keystones(ecosystem.value, scenario.value)
@@ -306,7 +309,7 @@ export const useAtlasStore = defineStore('atlas', () => {
     scenarioId.value = e.scenario(scenario).id;
     selectedId.value = null;
     storyIndex.value = 0;
-    tab.value = 'inspect';
+    tab.value = 'teach';
     removed.value = [];
     focusIds.value = null;
     hiddenTypes.value = [];
@@ -347,6 +350,43 @@ export const useAtlasStore = defineStore('atlas', () => {
     removed.value = removed.value.includes(id)
       ? removed.value.filter(x => x !== id)
       : [...removed.value, id];
+  }
+  /** Show only energy flows, only nutrient flows, or everything. */
+  function showLens(lens: 'all' | 'energy' | 'nutrients'): void {
+    hiddenTypes.value =
+      lens === 'energy'
+        ? ['nitrogen', 'phosphorus', 'seeds', 'ctl']
+        : lens === 'nutrients'
+          ? ['energy', 'seeds', 'ctl']
+          : [];
+    focusIds.value = null;
+  }
+  const flowLens = computed<
+    'all' | 'energy' | 'nutrients' | 'custom'
+  >(() => {
+    const hidden = [...hiddenTypes.value].sort().join();
+    if (hidden === '') return 'all';
+    if (hidden === ['ctl', 'nitrogen', 'phosphorus', 'seeds'].join())
+      return 'energy';
+    if (hidden === ['ctl', 'energy', 'seeds'].join())
+      return 'nutrients';
+    return 'custom';
+  });
+  /** Predict, then run: apply an activity's scenario or removals, and stay on the teaching tab. */
+  function runActivity(a: Activity): void {
+    stopCollapse();
+    selectedId.value = null;
+    focusIds.value = null;
+    scenarioId.value = a.scenarioId
+      ? ecosystem.value.scenario(a.scenarioId).id
+      : ecosystem.value.reference.id;
+    removed.value = a.remove ? [...a.remove] : [];
+    tab.value = 'teach';
+  }
+  function resetActivity(): void {
+    stopCollapse();
+    scenarioId.value = ecosystem.value.reference.id;
+    removed.value = [];
   }
   function setCollapseStep(k: number): void {
     const step = collapse.value?.[k];
@@ -445,6 +485,8 @@ export const useAtlasStore = defineStore('atlas', () => {
     collapsePlaying,
     playCollapse,
     stopCollapse,
+    flows,
+    flowLens,
     keystones,
     edgeViews,
     nodeViews,
@@ -457,6 +499,9 @@ export const useAtlasStore = defineStore('atlas', () => {
     clearFocus,
     toggleRemoved,
     testRemoval,
+    showLens,
+    runActivity,
+    resetActivity,
     setCollapseStep,
     restoreAll,
     toggleType,

@@ -74,7 +74,10 @@ describe('App', () => {
 
   test('the keystone panel lists a ranking and a way to test removal', async () => {
     const w = mountApp();
-    await w.findAll('.ptab')[2]!.trigger('click');
+    await w
+      .findAll('.ptab')
+      .find(t => t.text() === 'Keystones')!
+      .trigger('click');
     expect(w.findAll('.ksrow').length).toBeGreaterThan(10);
     expect(w.find('.panel').text()).toContain('not a keystone index');
     w.unmount();
@@ -82,7 +85,10 @@ describe('App', () => {
 
   test('the evidence table filters by evidence level', async () => {
     const w = mountApp();
-    await w.findAll('.ptab')[3]!.trigger('click');
+    await w
+      .findAll('.ptab')
+      .find(t => t.text() === 'Evidence')!
+      .trigger('click');
     const all = w.findAll('tbody tr').length;
     await w.findAll('.panel .chip')[0]!.trigger('click');
     expect(w.findAll('tbody tr').length).toBeLessThan(all);
@@ -92,7 +98,10 @@ describe('App', () => {
   test('shows system health, and the collapse chart steps through removals', async () => {
     const w = mountApp();
     expect(w.find('.health').text()).toContain('100%');
-    await w.findAll('.ptab')[2]!.trigger('click');
+    await w
+      .findAll('.ptab')
+      .find(t => t.text() === 'Keystones')!
+      .trigger('click');
     expect(w.find('.collapse svg').exists()).toBe(true);
     const slider = w.find('.collapse input[type="range"]');
     await slider.setValue(4);
@@ -119,6 +128,60 @@ describe('App', () => {
     expect(w.find('.sidebar').classes()).toContain('peek');
     await w.find('.sidebar').trigger('keydown', { key: 'Escape' });
     expect(w.findAll('.eco-item').length).toBe(0);
+    w.unmount();
+  });
+
+  test('opens on the teaching tab, and a question highlights its flows', async () => {
+    const w = mountApp();
+    await nextTick();
+    expect(w.find('.ptab[aria-selected="true"]').text()).toBe(
+      'Teach',
+    );
+    expect(w.find('.panel').text()).toContain(
+      'Energy and nutrient flows',
+    );
+    expect(w.find('.ladder').exists()).toBe(true);
+    expect(w.findAll('.ledger').length).toBeGreaterThan(0);
+    const q = w.findAll('.panel .row')[0]!;
+    await q.trigger('click');
+    expect(w.find('.notice').text()).toContain('What the map shows');
+    expect(w.findAll('.edge.hot').length).toBeGreaterThan(0);
+    w.unmount();
+  });
+
+  test('the energy lens hides the nutrient flows', async () => {
+    const w = mountApp();
+    await nextTick();
+    const before = w
+      .findAll('.edge')
+      .filter(e => e.isVisible()).length;
+    const energy = w
+      .findAll('.lens-row .seg button')
+      .find(b => b.text() === 'Energy only')!;
+    await energy.trigger('click');
+    const after = w
+      .findAll('.edge')
+      .filter(e => e.isVisible()).length;
+    expect(after).toBeLessThan(before);
+    w.unmount();
+  });
+
+  test('a predict-then-run activity runs the scenario and reveals what to notice', async () => {
+    const w = mountApp();
+    await nextTick();
+    const run = w
+      .findAll('.activities .btn')
+      .find(b => b.text() === 'Run it')!;
+    await run.trigger('click');
+    expect(w.find('.status').exists()).toBe(true);
+    expect(w.find('.activities .notice').text()).toContain(
+      'What to notice',
+    );
+    expect(w.find('.ptab[aria-selected="true"]').text()).toBe(
+      'Teach',
+    );
+    await w.find('.activities .btn.quiet').trigger('click');
+    expect(w.find('.status').exists()).toBe(false);
     w.unmount();
   });
 });

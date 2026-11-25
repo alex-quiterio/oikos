@@ -4,17 +4,20 @@ import { useAtlasStore } from '@presentation/stores';
 import type { PanelTab } from '@presentation/types';
 import EvidencePanel from './EvidencePanel.vue';
 import InspectPanel from './InspectPanel.vue';
+import TeachPanel from './TeachPanel.vue';
 import KeystonePanel from './KeystonePanel.vue';
 import ScenarioPanel from './ScenarioPanel.vue';
 
 const store = useAtlasStore();
 const tabs: readonly (readonly [PanelTab, string])[] = [
+  ['teach', 'Teach'],
   ['inspect', 'Inspect'],
   ['scenario', 'Scenario'],
   ['keystones', 'Keystones'],
   ['evidence', 'Evidence'],
 ];
 const panels = {
+  teach: TeachPanel,
   inspect: InspectPanel,
   scenario: ScenarioPanel,
   keystones: KeystonePanel,

@@ -1,12 +1,14 @@
 import {
   assessHealth,
   collapseSequence,
+  analyseFlows,
   compareWithLiterature,
   rankDependence,
   simulate,
   type CollapseStep,
   type Dependence,
   type Disagreements,
+  type FlowAnalysis,
   type Ecosystem,
   type Health,
   type OrganismId,
@@ -22,6 +24,7 @@ export interface KeystoneReport {
 
 /** Use cases of the atlas. Stateless: all state lives in the presentation store. */
 export class AtlasService {
+  private readonly flowCache = new Map<string, FlowAnalysis>();
   private readonly keystoneCache = new Map<string, KeystoneReport>();
   private readonly collapseCache = new Map<
     string,
@@ -91,5 +94,14 @@ export class AtlasService {
     });
     this.collapseCache.set(key, steps);
     return steps;
+  }
+
+  /** The ecosystem read as energy and nutrient flows. Cached. */
+  flows(eco: Ecosystem): FlowAnalysis {
+    const hit = this.flowCache.get(eco.id);
+    if (hit) return hit;
+    const analysis = analyseFlows(eco);
+    this.flowCache.set(eco.id, analysis);
+    return analysis;
   }
 }

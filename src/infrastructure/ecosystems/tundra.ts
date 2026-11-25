@@ -590,13 +590,17 @@ export const tundra: EcosystemDto = {
       name: 'Permafrost thaw',
       summary:
         'Warming thaws frozen ground. Microbes get access to old carbon. Here permafrost falls to 70% of its reference extent.',
-      abundance: { perma: 0.7 },
+      abundance: { perma: 0.7, bact: 1.3 },
       factors: {},
       assumes: [
         ['E', 'Thaw exposes old carbon to microbes.'],
         [
           'L',
           'The frozen store falls to about 70% of its reference extent.',
+        ],
+        [
+          'L',
+          'Microbes become about 30% more active as old carbon becomes available.',
         ],
       ],
       unknowns: [

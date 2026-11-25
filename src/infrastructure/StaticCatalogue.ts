@@ -12,6 +12,7 @@ import {
   veluwe,
   waddenSea,
   westerpark,
+  TEACHING,
 } from '@infrastructure/ecosystems';
 
 /** Adapter for the AtlasCatalogue port. Ecosystems are authored as typed data modules in this repository. */
@@ -29,7 +30,7 @@ export class StaticCatalogue implements AtlasCatalogue {
     kelpForest,
     coralReef,
     hydrothermalVent,
-  ].map(toAtlasEntry);
+  ].map(dto => toAtlasEntry({ ...dto, teach: TEACHING[dto.id] }));
 
   list(): readonly AtlasEntry[] {
     return this.entries;

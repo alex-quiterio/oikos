@@ -8,6 +8,7 @@ import type {
   OpenQuestion,
   Scenario,
   Story,
+  TeachingGuide,
 } from './types';
 
 export interface EcosystemProps {
@@ -27,6 +28,8 @@ export interface EcosystemProps {
   questions: readonly OpenQuestion[];
   omitted: string;
   care: { why: string; status: string };
+  /** Teaching material about energy and nutrient flows. */
+  teaching?: TeachingGuide;
 }
 
 export class InvalidEcosystemError extends Error {}
@@ -47,6 +50,7 @@ export class Ecosystem {
   readonly questions: readonly OpenQuestion[];
   readonly omitted: string;
   readonly care: { why: string; status: string };
+  readonly teaching?: TeachingGuide;
   private readonly byId: ReadonlyMap<OrganismId, Organism>;
 
   private constructor(p: EcosystemProps) {
@@ -64,6 +68,7 @@ export class Ecosystem {
     this.questions = p.questions;
     this.omitted = p.omitted;
     this.care = p.care;
+    this.teaching = p.teaching;
     this.byId = new Map(p.organisms.map(o => [o.id, o]));
   }
 
@@ -106,6 +111,29 @@ export class Ecosystem {
     for (const st of props.stories)
       for (const id of st.organismIds ?? [])
         if (!ids.has(id)) fail(`story names unknown organism ${id}`);
+    for (const q of props.teaching?.questions ?? []) {
+      if (q.look.length === 0)
+        fail(`guide question "${q.title}" highlights nothing`);
+      for (const id of q.look)
+        if (!relIds.has(id))
+          fail(`guide question names unknown relationship ${id}`);
+    }
+    for (const a of props.teaching?.activities ?? []) {
+      if (!a.scenarioId && !a.remove?.length)
+        fail(`activity "${a.title}" changes nothing`);
+      if (
+        a.scenarioId &&
+        !props.scenarios.some(s => s.id === a.scenarioId)
+      )
+        fail(
+          `activity "${a.title}" names unknown scenario ${a.scenarioId}`,
+        );
+      for (const id of a.remove ?? [])
+        if (!ids.has(id))
+          fail(
+            `activity "${a.title}" removes unknown organism ${id}`,
+          );
+    }
     return new Ecosystem(props);
   }
 

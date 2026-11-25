@@ -105,3 +105,29 @@ export interface OpenQuestion {
 }
 
 export type Habitat = 'Land' | 'Urban' | 'Land and sea' | 'Marine';
+
+/** A question that points at part of the map. Looking at the highlighted flows should help answer it. */
+export interface GuideQuestion {
+  readonly title: string;
+  readonly prompt: string;
+  /** Flow or control ids to highlight on the map. */
+  readonly look: readonly string[];
+  /** What the map shows, to read after thinking about the question. */
+  readonly notice: string;
+}
+
+/** Predict, then run: a scenario or removal to try, with what to look for afterwards. */
+export interface Activity {
+  readonly title: string;
+  readonly predict: string;
+  readonly notice: string;
+  readonly scenarioId?: string;
+  readonly remove?: readonly OrganismId[];
+}
+
+/** Teaching material that views an ecosystem through its energy and nutrient flows. */
+export interface TeachingGuide {
+  readonly bigIdea: string;
+  readonly questions: readonly GuideQuestion[];
+  readonly activities: readonly Activity[];
+}

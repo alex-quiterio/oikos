@@ -28,6 +28,7 @@ Eleven ecosystems so far:
 
 ## What you can do
 
+- **Teach this.** Every ecosystem opens on a teaching tab built around energy and nutrient flows. It shows where energy enters, an energy ladder from producers up to top predators, how much of each nutrient is recycled and who delivers it to the plants, questions that highlight the flows to look at, and predict-then-run activities. Buttons show energy only or nutrients only.
 - **Run scenarios.** Rabbit collapse, heat bleaching, nitrogen deposition, permafrost thaw, seafloor mining and more. Line weights and flow particles change, and a shadow shows the reference state.
 - **Watch the system fail.** A health bar stays in view and counts organisms by stress level while it falls. Nodes on the map turn from green through yellow and orange to red as supply drops. Blue means surging, as when urchins boom after otters go.
 - **Play the collapse.** Remove organisms one after another, most depended-on first, and see whether the web slopes down or falls off a cliff.

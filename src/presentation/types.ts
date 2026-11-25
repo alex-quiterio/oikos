@@ -55,4 +55,4 @@ export interface NodeView {
 }
 
 export type PanelTab =
-  'inspect' | 'scenario' | 'keystones' | 'evidence';
+  'teach' | 'inspect' | 'scenario' | 'keystones' | 'evidence';

@@ -61,7 +61,7 @@ export const westerpark: EcosystemDto = {
       d: 'Water entering the pond from rain, paving and connected canals, carrying nitrogen and phosphorus.',
     },
     trees: {
-      n: 'Plane trees, willows and alder',
+      n: 'Park trees',
       g: 'plant',
       s: 'c',
       x: 330,
@@ -116,7 +116,7 @@ export const westerpark: EcosystemDto = {
       d: 'Tiny floating plants that can carpet a pond and shade everything beneath.',
     },
     zoo: {
-      n: 'Water fleas and zooplankton',
+      n: 'Water fleas',
       g: 'invert',
       s: 'c',
       x: 160,
@@ -130,7 +130,7 @@ export const westerpark: EcosystemDto = {
       },
     },
     benth: {
-      n: 'Midge larvae, snails and mussels',
+      n: 'Bottom animals',
       g: 'invert',
       s: 'c',
       x: 330,
@@ -167,7 +167,7 @@ export const westerpark: EcosystemDto = {
       },
     },
     mud: {
-      n: 'Pond mud and leaf litter',
+      n: 'Mud and leaf litter',
       g: 'store',
       s: 's',
       x: 200,
@@ -226,7 +226,7 @@ export const westerpark: EcosystemDto = {
       d: 'Eat duckweed, plants, small animals and, above all, bread.',
     },
     goose: {
-      n: 'Egyptian and Canada geese',
+      n: 'Geese',
       g: 'bird',
       s: 'c',
       x: 700,
@@ -260,6 +260,38 @@ export const westerpark: EcosystemDto = {
       y: 520,
       r: 22,
       d: 'Lives near bins and where people feed birds.',
+    },
+    emerg: {
+      n: 'Emerging midges',
+      g: 'invert',
+      s: 'c',
+      x: 270,
+      y: 400,
+      r: 20,
+      d: 'The adults of the pond’s midge larvae. They hatch, fly off and carry the pond’s energy and nutrients onto land.',
+    },
+    spider: {
+      n: 'Shore spiders',
+      g: 'invert',
+      s: 'c',
+      x: 190,
+      y: 330,
+      r: 20,
+      d: 'Orb-weavers and other spiders on the bank and in the reeds. They catch the insects that leave the pond, and feed small birds.',
+      ks: {
+        k: 'vector',
+        s: 'proposed',
+        t: 'Shore spiders are a documented route by which pond insects reach land animals. How many there are here, and how much they depend on the pond, is unmeasured.',
+      },
+    },
+    songb: {
+      n: 'Small birds',
+      g: 'bird',
+      s: 'c',
+      x: 480,
+      y: 240,
+      r: 22,
+      d: 'Take insects and spiders for their chicks, eat berries and seed, and use the park’s trees and bird feeders.',
     },
   },
   flows: [
@@ -530,6 +562,51 @@ export const westerpark: EcosystemDto = {
       'U',
       'rat droppings at the water’s edge?',
     ],
+    // the pond's energy leaving for land
+    [
+      'benth',
+      'emerg',
+      'energy',
+      3,
+      'E',
+      'adults hatch from the pond',
+    ],
+    [
+      'emerg',
+      'spider',
+      'energy',
+      4,
+      'E',
+      'insects leaving the pond are caught on the bank',
+    ],
+    [
+      'emerg',
+      'songb',
+      'energy',
+      2,
+      'L',
+      'insects picked from the air and the bank',
+    ],
+    ['spider', 'songb', 'energy', 3, 'E', 'spiders fed to chicks'],
+    [
+      'trees',
+      'songb',
+      'energy',
+      2,
+      'E',
+      'seeds, berries and insects',
+    ],
+    ['people', 'songb', 'energy', 2, 'E', 'bird-feeder seed'],
+    ['songb', 'lawn', 'nitrogen', 1, 'L', 'droppings'],
+    [
+      'emerg',
+      'lawn',
+      'nitrogen',
+      1,
+      'D',
+      'pond nutrients carried to land by emerging insects?',
+      'Emerging insects take nutrients from the pond to land. How much leaves the pond this way is debated, and not measured here.',
+    ],
   ],
   controls: [
     [
@@ -616,6 +693,22 @@ export const westerpark: EcosystemDto = {
       'geese keep the grass short',
     ],
     ['fox', 'rat', 'release', 0.3, 'U', 'foxes may limit rats'],
+    [
+      'spider',
+      'emerg',
+      'release',
+      0.3,
+      'L',
+      'shore spiders catch emerging insects',
+    ],
+    [
+      'songb',
+      'spider',
+      'release',
+      0.2,
+      'L',
+      'small birds take spiders',
+    ],
   ],
   stories: [
     {
@@ -702,7 +795,7 @@ export const westerpark: EcosystemDto = {
     },
   ],
   omitted:
-    'Left out for now: amphibians, dragonflies and other insects, bats, hedgehogs, blackbirds and other songbirds, crows and magpies, swans, muskrats and nutria, toxic blue-green algae, oxygen and water temperature, the canals around the park, mowing and planting choices, and people, whose feeding, dogs, events and maintenance shape the whole system.',
+    'Left out for now: amphibians, dragonflies, bats, hedgehogs, crows and magpies, individual insect and spider species, swans, muskrats and nutria, toxic blue-green algae, oxygen and water temperature, the canals around the park, mowing and planting choices, and people, whose feeding, dogs, events and maintenance shape the whole system.',
   care: {
     why: 'A city park is still an ecosystem. Its ponds, lawns and old trees hold herons, coots and foxes in the middle of a big city, and the people who feed, walk and maintain it are part of the web.',
     status:

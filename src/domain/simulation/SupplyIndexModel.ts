@@ -45,6 +45,14 @@ export interface Simulation {
 /** Share of a change in inflow that a store passes on. A modelling convention, not a measured quantity. */
 export const STORE_RESPONSE = 0.4;
 
+/**
+ * How strongly a plant's nitrogen or phosphorus supply follows its partner's. Below 1, losing part of a
+ * nutrient costs less than the same share of the plant, because of reserves and other ways to get it.
+ * Losing all of it still costs everything. Energy stays strict. Without this, a plant and the fungus
+ * that feeds it can drag each other to zero. A modelling convention, not a measured quantity.
+ */
+export const NUTRIENT_RESPONSE = 0.6;
+
 export const isModelled = (e: Evidence): boolean =>
   e === 'documented' || e === 'likely';
 
@@ -133,9 +141,12 @@ export function simulate(
           );
         for (const [type, total] of ref) {
           if (type === 'seeds') continue;
+          const ratio = Math.min(1, (sums.get(type) ?? 0) / total);
           limit = Math.min(
             limit,
-            Math.min(1, (sums.get(type) ?? 0) / total),
+            type === 'nitrogen' || type === 'phosphorus'
+              ? Math.pow(ratio, NUTRIENT_RESPONSE)
+              : ratio,
           );
         }
       }
@@ -147,15 +158,15 @@ export function simulate(
       for (const c of net.pressures.get(id) ?? [])
         pressure +=
           c.strength * factor(c.id) * Math.max(0, at(c.from) - 1);
-      const raw = Math.min(
+      // Stores pass on only part of a change in their inflow. A scenario's own setting for a store is not
+      // dampened.
+      if (net.stores.has(id) && net.reference.has(id))
+        limit = 1 - (1 - limit) * STORE_RESPONSE;
+      const target = Math.min(
         3,
         ((base[id] ?? 0) * limit * Math.min(release, 3)) /
           (1 + pressure),
       );
-      const target =
-        net.stores.has(id) && (base[id] ?? 0) > 0
-          ? 1 - (1 - raw) * STORE_RESPONSE
-          : raw;
       next[id] = 0.5 * at(id) + 0.5 * target;
       delta += Math.abs((next[id] ?? 0) - at(id));
     }

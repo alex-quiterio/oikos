@@ -82,4 +82,23 @@ export interface EcosystemDto {
   omitted: string;
   care: { why: string; status: string };
   scenarios: ScenarioDto[];
+  teach?: TeachDto;
+}
+
+/** Teaching material for one ecosystem. See TeachingGuide in the domain. */
+export interface TeachDto {
+  bigIdea: string;
+  questions: {
+    t: string;
+    x: string;
+    look: string[];
+    notice: string;
+  }[];
+  activities: {
+    t: string;
+    predict: string;
+    notice: string;
+    scenario?: string;
+    remove?: string[];
+  }[];
 }
