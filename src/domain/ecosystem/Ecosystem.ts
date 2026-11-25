@@ -4,6 +4,7 @@ import type {
   FlowType,
   Habitat,
   Organism,
+  Reference,
   OrganismId,
   OpenQuestion,
   Scenario,
@@ -28,6 +29,8 @@ export interface EcosystemProps {
   questions: readonly OpenQuestion[];
   omitted: string;
   care: { why: string; status: string };
+  /** Published works that relationships are anchored to. */
+  references?: readonly Reference[];
   /** Teaching material about energy and nutrient flows. */
   teaching?: TeachingGuide;
 }
@@ -51,6 +54,7 @@ export class Ecosystem {
   readonly omitted: string;
   readonly care: { why: string; status: string };
   readonly teaching?: TeachingGuide;
+  readonly references: readonly Reference[];
   private readonly byId: ReadonlyMap<OrganismId, Organism>;
 
   private constructor(p: EcosystemProps) {
@@ -69,6 +73,7 @@ export class Ecosystem {
     this.omitted = p.omitted;
     this.care = p.care;
     this.teaching = p.teaching;
+    this.references = p.references ?? [];
     this.byId = new Map(p.organisms.map(o => [o.id, o]));
   }
 
@@ -111,6 +116,10 @@ export class Ecosystem {
     for (const st of props.stories)
       for (const id of st.organismIds ?? [])
         if (!ids.has(id)) fail(`story names unknown organism ${id}`);
+    const refIds = new Set((props.references ?? []).map(r => r.id));
+    for (const r of [...props.flows, ...props.controls])
+      if (r.source && !refIds.has(r.source.ref))
+        fail(`${r.id} cites unknown reference ${r.source.ref}`);
     for (const q of props.teaching?.questions ?? []) {
       if (q.look.length === 0)
         fail(`guide question "${q.title}" highlights nothing`);

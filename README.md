@@ -48,6 +48,8 @@ Every flow carries an evidence level.
 | `debated`    | Published claims exist and are contested                |
 | `unknown`    | Suspected or asked about, with no solid evidence        |
 
+The Wadden Sea is anchored to a published study, Horn et al. (2017), whose network files are in `data/sources/horn2017`. Its flows carry the paper's sizes and a precise source, flows to detritus are rated likely because the paper calls them low quality, and fish, seals and nutrients stay marked as the author's estimates. The other ecosystems are not yet anchored to any paper.
+
 Weights (1 to 5) are relative guesses for comparison and are not measured fluxes. Only documented and likely relationships enter the scenario model. Debated and unknown ones are drawn dashed or dotted with a question mark. Every ecosystem lists open questions and what it leaves out, and every scenario lists what it cannot tell you.
 
 The evidence levels and keystone claims are the author's reading of the literature and carry no citations yet. Corrections from people who know these systems are the most valuable contribution.

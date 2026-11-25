@@ -523,69 +523,95 @@ export const TEACHING: Record<string, TeachDto> = {
 
   'wadden-sea': {
     bigIdea:
-      'The tide brings plankton and nutrients to a shallow sea twice a day, and the mud keeps them. Tiny algae on the mud feed worms and shellfish, and shellfish feed birds that fly thousands of kilometres. The mud is the pantry.',
+      'The flats are an open system. The tide brings plankton in and carries detritus out. In a study of six habitats, only about 1% to 6% of the carbon flow was recycled inside the system (Horn et al. 2017), so the shellfish live mostly on what the tide delivers. The mud also grows its own algae, by far the largest producer, and mudsnails and worms turn them into food for birds.',
     questions: [
       {
-        t: 'Who captures the energy, and where is the light?',
-        x: 'There are producers in the water and on the mud.',
+        t: 'Who captures the energy, and where does it come from?',
+        x: 'Find the three arrows that bring energy in.',
         look: [
-          'sun>phyto:energy',
           'sun>diat:energy',
           'sun>zost:energy',
+          'sea>phyto:energy',
         ],
         notice:
-          'Algae floating in the water, algae on the mud surface, and eelgrass. The mud is a producer too, when the tide is out.',
+          'Three producers. Algae on the mud are by far the largest. Seagrass and seaweed feed geese and wigeon. Plankton arrives with the tide, so its energy is delivered by the sea, not captured on the flats.',
       },
       {
-        t: 'Where does the mud’s food come from?',
-        x: 'Dead algae sink. What happens to them?',
+        t: 'Where does the mud algae’s energy go?',
+        x: 'Follow the arrows that leave the mud algae. Who gets the most?',
         look: [
-          'phyto>detr:energy',
+          'diat>snails:energy',
+          'diat>worm:energy',
+          'diat>cockle:energy',
           'diat>detr:energy',
-          'detr>worm:energy',
-          'detr>bact:energy',
         ],
         notice:
-          'Dead algae and eelgrass settle into the mud as detritus. Worms and microbes eat it, and the energy goes up the web from there.',
+          'Mudsnails take the biggest share, about a sixth of the algae’s production. About half is unused. The paper assumes that part goes to detritus or is carried away by the tide. A large part of the mud’s energy never reaches an animal on the flats.',
       },
       {
-        t: 'How do shellfish carry energy to birds?',
-        x: 'Trace the path from water to a bird.',
+        t: 'How does energy get from the mud to birds?',
+        x: 'Trace a path from a worm or a shellfish to a bird.',
         look: [
-          'phyto>cockle:energy',
-          'cockle>knot:energy',
+          'worm>waders:energy',
           'cockle>oyc:energy',
-          'mussel>eider:energy',
+          'cockle>knot:energy',
+          'snails>shelduck:energy',
         ],
         notice:
-          'Shellfish filter plankton from the water, and birds eat the shellfish. A migrating bird’s fuel comes from the mud.',
+          'Waders eat worms, oystercatchers eat clams and worms, knots eat clams, and shelduck eat snails. In the paper about 80% of what waders eat is worms, about 48% of what oystercatchers eat is clams, and about 78% of what knots eat is clams.',
       },
       {
-        t: 'Where are nutrients recycled?',
-        x: 'Look at the nutrient arrows that start in the mud.',
+        t: 'Which birds live on plants?',
+        x: 'Most of the birds here eat animals. Which do not?',
+        look: ['zost>dabblers:energy', 'zost>goose:energy'],
+        notice:
+          'Wigeon and other dabbling ducks, and brent geese. In the paper they live almost entirely on seagrass and seaweed. If the seagrass is lost, they have little else on the flats.',
+      },
+      {
+        t: 'Does the system keep its carbon?',
+        x: 'Detritus and microbes can return carbon to worms and snails. How much does?',
+        look: [
+          'detr>bact:energy',
+          'bact>worm:energy',
+          'diat>detr:energy',
+          'snails>detr:energy',
+        ],
+        notice:
+          'Some is recycled, but only about 1% to 6% of the carbon flow in the paper’s six habitats, because the tide carries the unused production away. The flats are fed from outside and leak to outside.',
+      },
+      {
+        t: 'How are nutrients recycled?',
+        x: 'The paper follows carbon only. What does this map suggest for nitrogen and phosphorus?',
         look: [
           'bact>diat:nitrogen',
           'worm>bact:nitrogen',
           'detr>bact:phosphorus',
         ],
         notice:
-          'Microbes in the mud, helped by burrowing worms that bring in oxygen, release nutrients back to the algae within the mud itself.',
+          'On this map, microbes in the mud, helped by worms that bring in oxygen, return nutrients to the algae within the mud. These flows are the author’s estimates. How much they matter compared with what the tide brings is not shown.',
       },
     ],
     activities: [
       {
         t: 'Cockles fail',
-        predict: 'Who depends on cockles most?',
+        predict: 'Who depends on cockles and other clams most?',
         scenario: 'cockle-failure',
         notice:
-          'The oystercatcher, knot and others that eat cockles lose energy. They may switch to worms or mussels, which is not shown on the map.',
+          'Knots lose the most, because clams are about four fifths of what they eat in the paper. Shelduck, oystercatchers, waders and crabs lose food too. Birds might switch to worms or snails, which the map does not show.',
       },
       {
         t: 'Lose the mussel beds',
-        predict: 'The beds filter plankton. What changes?',
+        predict: 'The beds are tiny in area. Does it matter?',
         scenario: 'mussel-bed-loss',
         notice:
-          'Eiders and crabs lose food. Cockles gain a little, because the mussels no longer filter as much plankton out of the water. A change in one flow can help a neighbour. Habitat, which is not a flow, is lost too and is not shown.',
+          'Eiders and crabs lose food, and plankton is filtered less. Averaged over all the flats mussels are small, but the paper’s mussel bank is the densest habitat, so the local effect is much larger than the average suggests.',
+      },
+      {
+        t: 'Lose the seagrass',
+        predict: 'Who has nowhere else to go?',
+        scenario: 'seagrass-loss',
+        notice:
+          'Geese and wigeon fall furthest, because seagrass and seaweed are almost all of what they eat. Animals that eat other things barely notice. A food web is fragile for the species that depend on a single plant.',
       },
     ],
   },

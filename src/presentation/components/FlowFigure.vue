@@ -34,6 +34,8 @@ const groups = computed(() => {
 });
 const edge = computed(() => store.hoveredEdge);
 const eco = computed(() => store.ecosystem);
+const refShort = (id: string): string =>
+  eco.value.references.find(r => r.id === id)?.short ?? id;
 const kindText = computed(() => {
   const e = edge.value;
   if (!e) return '';
@@ -68,6 +70,15 @@ const kindText = computed(() => {
         · {{ kindText }} · {{ edge.label }} ·
         <b>{{ edge.evidence }}</b>
         <template v-if="edge.note"><br />{{ edge.note }}</template>
+        <template v-if="edge.source"
+          ><br /><b>Source:</b> {{ refShort(edge.source.ref) }}.
+          {{ edge.source.detail }}</template
+        >
+        <template v-else-if="eco.references.length"
+          ><br /><i
+            >Not in the cited work: the author's estimate.</i
+          ></template
+        >
       </template>
       <template v-else
         >Hover or tap a flow to read it. Click an organism to follow

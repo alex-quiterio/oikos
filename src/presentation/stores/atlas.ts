@@ -208,6 +208,7 @@ export const useAtlasStore = defineStore('atlas', () => {
           modelled,
           label: r.label,
           note: r.note,
+          source: r.source,
           weight: control ? 0.6 + r.strength * 1.1 : r.weight,
           strength,
           active: control ? (sim.controlActivity[r.id] ?? 0) : 0,

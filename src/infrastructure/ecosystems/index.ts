@@ -12,3 +12,4 @@ export { kelpForest } from './kelp-forest';
 export { coralReef } from './coral-reef';
 export { hydrothermalVent } from './hydrothermal-vent';
 export { TEACHING } from './teaching';
+export * from './horn2017.generated';

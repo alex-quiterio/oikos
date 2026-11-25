@@ -11,12 +11,21 @@ const rows = computed(() =>
     store.evidenceFilter.includes(e.evidence),
   ),
 );
+const short = (id: string): string =>
+  eco.value.references.find(r => r.id === id)?.short ?? id;
+const sourced = computed(
+  () => store.edgeViews.filter(e => e.source).length,
+);
 const name = (id: string): string => eco.value.organism(id).name;
 </script>
 
 <template>
   <p class="tag">Table 1</p>
   <h2>Every flow and its evidence</h2>
+  <p v-if="eco.references.length" class="sm">
+    {{ sourced }} of {{ store.edgeViews.length }} relationships are
+    anchored to a cited work. The rest are the author's estimates.
+  </p>
   <div class="chips">
     <button
       v-for="e in EVIDENCE_ORDER"
@@ -53,10 +62,20 @@ const name = (id: string): string => eco.value.organism(id).name;
             >{{ e.label
             }}<template v-if="e.note">. {{ e.note }}</template></span
           >
+          <template v-if="e.source"
+            ><br /><span class="sm src"
+              >Source: {{ short(e.source.ref) }}.
+              {{ e.source.detail }}</span
+            ></template
+          >
         </td>
         <td><EvidenceBadge :evidence="e.evidence" /></td>
         <td class="num">
-          {{ e.isControl ? e.weight.toFixed(1) : e.weight }}
+          {{
+            e.isControl
+              ? e.weight.toFixed(1)
+              : Number(e.weight.toFixed(1))
+          }}
         </td>
       </tr>
     </tbody>

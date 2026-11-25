@@ -1481,3 +1481,7 @@ figcaption b {
   border-color: var(--line);
   margin-left: 6px;
 }
+
+.tbl .src {
+  color: var(--accent);
+}

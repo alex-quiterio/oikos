@@ -184,4 +184,29 @@ describe('App', () => {
     expect(w.find('.status').exists()).toBe(false);
     w.unmount();
   });
+
+  test('the evidence tab shows which relationships are anchored to a cited work', async () => {
+    history.replaceState(null, '', '#wadden-sea');
+    configureAtlas(new AtlasService(new StaticCatalogue()));
+    const w = mount(App, {
+      global: { plugins: [createPinia()] },
+      attachTo: document.body,
+    });
+    await nextTick();
+    await w
+      .findAll('.ptab')
+      .find(t => t.text() === 'Evidence')!
+      .trigger('click');
+    expect(w.find('.panel').text()).toContain(
+      'anchored to a cited work',
+    );
+    expect(w.find('.panel .src').text()).toContain(
+      'Horn et al. 2017',
+    );
+    expect(w.find('.prose').text()).toContain('Sources');
+    expect(w.find('.prose').text()).toContain(
+      'PLoS ONE 12(5): e0176381',
+    );
+    w.unmount();
+  });
 });

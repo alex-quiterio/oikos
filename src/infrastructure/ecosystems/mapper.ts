@@ -26,7 +26,7 @@ export function toAtlasEntry(dto: EcosystemDto): AtlasEntry {
       claim: n.ks && { kind: n.ks.k, status: n.ks.s, note: n.ks.t },
     })),
     flows: dto.flows.map(
-      ([from, to, type, weight, ev, label, note]) => ({
+      ([from, to, type, weight, ev, label, note, src]) => ({
         id: `${from}>${to}:${type}`,
         from,
         to,
@@ -35,10 +35,11 @@ export function toAtlasEntry(dto: EcosystemDto): AtlasEntry {
         evidence: EVIDENCE[ev],
         label,
         note,
+        source: src,
       }),
     ),
     controls: (dto.controls ?? []).map(
-      ([from, to, kind, strength, ev, label, note]) => ({
+      ([from, to, kind, strength, ev, label, note, src]) => ({
         id: `${from}>${to}:ctl`,
         from,
         to,
@@ -47,6 +48,7 @@ export function toAtlasEntry(dto: EcosystemDto): AtlasEntry {
         evidence: EVIDENCE[ev],
         label,
         note,
+        source: src,
       }),
     ),
     scenarios: dto.scenarios.map(s => ({
@@ -73,6 +75,7 @@ export function toAtlasEntry(dto: EcosystemDto): AtlasEntry {
     })),
     omitted: dto.omitted,
     care: dto.care,
+    references: dto.references,
     teaching: dto.teach && {
       bigIdea: dto.teach.bigIdea,
       questions: dto.teach.questions.map(q => ({

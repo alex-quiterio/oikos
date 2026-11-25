@@ -46,6 +46,21 @@ Each ecosystem has a guide in `src/infrastructure/ecosystems/teaching.ts`, keyed
 - Run each activity and check that `notice` matches the numbers. Do not claim an effect the model does not show. Say so when the real effect lies outside the map.
 - The tests check that every id exists, that each activity changes something, and that every ecosystem has both lenses.
 
+## Anchoring an ecosystem to a paper
+
+A flow can carry a source. Add the work to the ecosystem's `references`, then give each relationship a `src` as the last element of its tuple:
+
+```ts
+references: [{ id: 'horn2017', short: 'Horn et al. 2017', citation: '…', url: 'https://doi.org/…', note: 'what it covers and what it does not' }],
+flows: [['cockle', 'knot', 'energy', 3.2, 'E', 'small shellfish swallowed whole', undefined, { ref: 'horn2017', detail: 'Table 2, sand flat: 19 mgC m⁻² d⁻¹' }]],
+```
+
+- `detail` names the table, file or figure, the system and method, and the value if the work gives one.
+- A relationship without a source shows as the author's estimate once an ecosystem cites anything.
+- Rate evidence by what the paper shows. A modelled or assumed flow is not measured. The Wadden Sea marks flows to detritus as likely because the paper rates them low quality.
+- Keep the data the numbers came from in `data/sources/`, with its licence, and generate the weights with a script so they can be re-derived. See `scripts/extract-horn2017.ts`.
+- Put the paper's sizes on the 1 to 5 scale with one stated rule, and say what the rule is.
+
 ## Evidence rules
 
 - Mark a flow `E` only when it is documented for this system or a very close one.

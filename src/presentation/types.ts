@@ -4,6 +4,7 @@ import type {
   KeystoneClaim,
   OrganismGroup,
   OrganismId,
+  Source,
   StressLevel,
 } from '@domain';
 import type { NodeLayout } from '@application';
@@ -22,6 +23,7 @@ export interface EdgeView {
   readonly modelled: boolean;
   readonly label: string;
   readonly note?: string;
+  readonly source?: Source;
   /** Reference weight for flows, a drawing weight for controls. */
   readonly weight: number;
   /** Multiplier on the reference weight in the current scenario. */

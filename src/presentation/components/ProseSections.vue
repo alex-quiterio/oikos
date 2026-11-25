@@ -31,6 +31,22 @@ const store = useAtlasStore();
         and real webs contain alternatives that are missing here.
       </p>
     </div>
+    <div v-if="store.ecosystem.references.length">
+      <h2>Sources</h2>
+      <p v-for="r in store.ecosystem.references" :key="r.id">
+        {{ r.citation }}
+        <a v-if="r.url" :href="r.url" target="_blank" rel="noopener"
+          >Open</a
+        >
+      </p>
+      <p
+        v-for="r in store.ecosystem.references.filter(x => x.note)"
+        :key="r.id + 'n'"
+        class="sm"
+      >
+        {{ r.note }}
+      </p>
+    </div>
     <div>
       <h2>What this map leaves out</h2>
       <p>{{ store.ecosystem.omitted }}</p>

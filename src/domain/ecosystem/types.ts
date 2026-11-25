@@ -55,6 +55,8 @@ export interface Flow {
   readonly evidence: Evidence;
   readonly label: string;
   readonly note?: string;
+  /** Where the relationship and its size come from. Absent means the author's own estimate. */
+  readonly source?: Source;
 }
 
 /**
@@ -71,6 +73,8 @@ export interface Control {
   readonly evidence: Evidence;
   readonly label: string;
   readonly note?: string;
+  /** Where the relationship and its size come from. Absent means the author's own estimate. */
+  readonly source?: Source;
 }
 
 export interface Assumption {
@@ -130,4 +134,21 @@ export interface TeachingGuide {
   readonly bigIdea: string;
   readonly questions: readonly GuideQuestion[];
   readonly activities: readonly Activity[];
+}
+
+/** A published work that relationships can be anchored to. */
+export interface Reference {
+  readonly id: string;
+  /** Short form for display, for example "Horn et al. 2017". */
+  readonly short: string;
+  readonly citation: string;
+  readonly url?: string;
+  readonly note?: string;
+}
+
+/** The part of a reference that supports one relationship. */
+export interface Source {
+  readonly ref: string;
+  /** Table, file or figure, the system and method, and the value if the work gives one. */
+  readonly detail: string;
 }

@@ -12,6 +12,20 @@ import type {
  */
 export type EvidenceCode = 'E' | 'L' | 'D' | 'U';
 
+/** A published work, and the part of it that supports a relationship. */
+export interface ReferenceDto {
+  id: string;
+  short: string;
+  citation: string;
+  url?: string;
+  note?: string;
+}
+
+export interface SourceDto {
+  ref: string;
+  detail: string;
+}
+
 export type FlowTuple = [
   from: string,
   to: string,
@@ -20,6 +34,7 @@ export type FlowTuple = [
   evidence: EvidenceCode,
   label: string,
   note?: string,
+  src?: SourceDto,
 ];
 
 export type ControlTuple = [
@@ -30,6 +45,7 @@ export type ControlTuple = [
   evidence: EvidenceCode,
   label: string,
   note?: string,
+  src?: SourceDto,
 ];
 
 export interface NodeDto {
@@ -83,6 +99,7 @@ export interface EcosystemDto {
   care: { why: string; status: string };
   scenarios: ScenarioDto[];
   teach?: TeachDto;
+  references?: ReferenceDto[];
 }
 
 /** Teaching material for one ecosystem. See TeachingGuide in the domain. */
