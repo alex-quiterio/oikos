@@ -4,7 +4,11 @@ import { percentChange } from '@presentation/format';
 import { useAtlasStore } from '@presentation/stores';
 
 const store = useAtlasStore();
-const names = computed(() => store.removed.map(id => store.ecosystem.organism(id).name).join(', '));
+const names = computed(() =>
+  store.removed
+    .map(id => store.ecosystem.organism(id).name)
+    .join(', '),
+);
 const short = computed(() =>
   store.nodeViews
     .filter(n => !n.removed && n.group !== 'store' && n.supply < 0.5)
@@ -17,8 +21,14 @@ const short = computed(() =>
     <span><b>Removed:</b> {{ names }}.</span>
     <span
       ><b>Below half supply:</b>
-      {{ short.length ? short.join('; ') : 'nobody. The map has other routes.' }}</span
+      {{
+        short.length
+          ? short.join('; ')
+          : 'nobody. The map has other routes.'
+      }}</span
     >
-    <button class="btn" @click="store.restoreAll()">Restore everything</button>
+    <button class="btn" @click="store.restoreAll()">
+      Restore everything
+    </button>
   </div>
 </template>

@@ -1,6 +1,12 @@
 export * from './dto';
 export { toAtlasEntry } from './mapper';
 export { montado } from './montado';
+export { veluwe } from './veluwe';
+export { savanna } from './savanna';
+export { amazon } from './amazon';
+export { tundra } from './tundra';
 export { salmonRainforest } from './salmon-rainforest';
+export { waddenSea } from './wadden-sea';
 export { kelpForest } from './kelp-forest';
 export { coralReef } from './coral-reef';
+export { hydrothermalVent } from './hydrothermal-vent';

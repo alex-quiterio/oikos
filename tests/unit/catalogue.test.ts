@@ -31,7 +31,9 @@ describe('catalogue', () => {
             if (a >= b) continue;
             const p = layout.nodes[a]!;
             const q = layout.nodes[b]!;
-            expect(Math.hypot(p.x - q.x, p.y - q.y)).toBeGreaterThan(p.r + q.r + 8);
+            expect(Math.hypot(p.x - q.x, p.y - q.y)).toBeGreaterThan(
+              p.r + q.r + 8,
+            );
           }
         }
       });
@@ -41,11 +43,14 @@ describe('catalogue', () => {
         expect(levels.has('documented')).toBe(true);
         expect(eco.questions.length).toBeGreaterThan(0);
         expect(eco.omitted.length).toBeGreaterThan(20);
-        for (const s of eco.scenarios.slice(1)) expect(s.unknowns.length).toBeGreaterThan(0);
+        for (const s of eco.scenarios.slice(1))
+          expect(s.unknowns.length).toBeGreaterThan(0);
       });
 
       test('keystone claims carry a note', () => {
-        for (const o of eco.organisms) if (o.claim) expect(o.claim.note.length).toBeGreaterThan(20);
+        for (const o of eco.organisms)
+          if (o.claim)
+            expect(o.claim.note.length).toBeGreaterThan(20);
       });
     });
   }

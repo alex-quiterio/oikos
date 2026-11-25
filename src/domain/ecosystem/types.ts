@@ -7,11 +7,26 @@ export type ControlId = string; // "from>to:ctl"
 export type FlowType = 'energy' | 'nitrogen' | 'phosphorus' | 'seeds';
 
 /** How well the existence and direction of a relationship is supported. Never the size of it. */
-export type Evidence = 'documented' | 'likely' | 'debated' | 'unknown';
+export type Evidence =
+  'documented' | 'likely' | 'debated' | 'unknown';
 
-export type OrganismGroup = 'plant' | 'alga' | 'fungus' | 'invert' | 'fish' | 'bird' | 'mammal' | 'store';
+export type OrganismGroup =
+  | 'plant'
+  | 'alga'
+  | 'fungus'
+  | 'invert'
+  | 'fish'
+  | 'bird'
+  | 'mammal'
+  | 'store';
 
-export type ClaimKind = 'keystone' | 'foundation' | 'vector' | 'symbiont' | 'engineer' | 'disperser';
+export type ClaimKind =
+  | 'keystone'
+  | 'foundation'
+  | 'vector'
+  | 'symbiont'
+  | 'engineer'
+  | 'disperser';
 export type ClaimStatus = 'documented' | 'proposed' | 'contested';
 
 /** What the literature says about a species' role. A claim, not a computed result. */

@@ -1,4 +1,10 @@
-import type { ClaimKind, ClaimStatus, FlowType, Habitat, OrganismGroup } from '@domain/ecosystem';
+import type {
+  ClaimKind,
+  ClaimStatus,
+  FlowType,
+  Habitat,
+  OrganismGroup,
+} from '@domain/ecosystem';
 
 /**
  * Compact authoring format for ecosystem data. A mapper (anti-corruption layer) turns it into domain objects.

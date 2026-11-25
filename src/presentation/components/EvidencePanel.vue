@@ -6,7 +6,11 @@ import EvidenceBadge from './EvidenceBadge.vue';
 
 const store = useAtlasStore();
 const eco = computed(() => store.ecosystem);
-const rows = computed(() => store.edgeViews.filter(e => store.evidenceFilter.includes(e.evidence)));
+const rows = computed(() =>
+  store.edgeViews.filter(e =>
+    store.evidenceFilter.includes(e.evidence),
+  ),
+);
 const name = (id: string): string => eco.value.organism(id).name;
 </script>
 
@@ -33,16 +37,27 @@ const name = (id: string): string => eco.value.organism(id).name;
       </tr>
     </thead>
     <tbody>
-      <tr v-for="e in rows" :key="e.id" data-e @click="store.focusOn([e.id])">
+      <tr
+        v-for="e in rows"
+        :key="e.id"
+        data-e
+        @click="store.focusOn([e.id])"
+      >
         <td>
-          <span class="swatch" :style="{ background: `var(--${e.type})` }" />
+          <span
+            class="swatch"
+            :style="{ background: `var(--${e.type})` }"
+          />
           {{ name(e.from) }} → {{ name(e.to) }}<br />
           <span class="sm"
-            >{{ e.label }}<template v-if="e.note">. {{ e.note }}</template></span
+            >{{ e.label
+            }}<template v-if="e.note">. {{ e.note }}</template></span
           >
         </td>
         <td><EvidenceBadge :evidence="e.evidence" /></td>
-        <td class="num">{{ e.isControl ? e.weight.toFixed(1) : e.weight }}</td>
+        <td class="num">
+          {{ e.isControl ? e.weight.toFixed(1) : e.weight }}
+        </td>
       </tr>
     </tbody>
   </table>

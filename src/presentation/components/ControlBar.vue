@@ -16,10 +16,15 @@ const types = computed(() =>
     .filter(t => t.count > 0),
 );
 const unknownCount = computed(
-  () => store.ecosystem.flows.filter(f => f.evidence === 'debated' || f.evidence === 'unknown').length,
+  () =>
+    store.ecosystem.flows.filter(
+      f => f.evidence === 'debated' || f.evidence === 'unknown',
+    ).length,
 );
 const typeName = (t: RelationType): string =>
-  t === 'ctl' ? FLOW_TYPES.ctl.name : (store.ecosystem.flowLabels[t] ?? FLOW_TYPES[t].name);
+  t === 'ctl'
+    ? FLOW_TYPES.ctl.name
+    : (store.ecosystem.flowLabels[t] ?? FLOW_TYPES[t].name);
 </script>
 
 <template>
@@ -49,7 +54,8 @@ const typeName = (t: RelationType): string =>
           :aria-pressed="!store.hiddenTypes.includes(t.type)"
           @click="store.toggleType(t.type)"
         >
-          <span class="sw" />{{ typeName(t.type) }}<span class="n">{{ t.count }}</span>
+          <span class="sw" />{{ typeName(t.type)
+          }}<span class="n">{{ t.count }}</span>
         </button>
         <button
           class="chip"
@@ -57,7 +63,9 @@ const typeName = (t: RelationType): string =>
           :aria-pressed="store.showUnknown"
           @click="store.toggleUnknown()"
         >
-          <span class="sw" />Debated &amp; unknown<span class="n">{{ unknownCount }}</span>
+          <span class="sw" />Debated &amp; unknown<span class="n">{{
+            unknownCount
+          }}</span>
         </button>
       </div>
       <button
@@ -68,7 +76,11 @@ const typeName = (t: RelationType): string =>
       >
         Keystone lens
       </button>
-      <button class="tog" :aria-pressed="store.motion" @click="store.toggleMotion()">
+      <button
+        class="tog"
+        :aria-pressed="store.motion"
+        @click="store.toggleMotion()"
+      >
         {{ store.motion ? 'Motion on' : 'Motion off' }}
       </button>
     </div>
@@ -79,7 +91,11 @@ const typeName = (t: RelationType): string =>
           v-for="(s, i) in store.stories"
           :key="s.title"
           class="chap"
-          :aria-pressed="i === store.storyIndex && !store.selectedId && !store.focusIds"
+          :aria-pressed="
+            i === store.storyIndex &&
+            !store.selectedId &&
+            !store.focusIds
+          "
           @click="store.showStory(i)"
         >
           {{ s.title }}

@@ -20,7 +20,11 @@ export interface MapLayout {
   readonly sky: 'land' | 'water';
   readonly bands: readonly Band[];
   readonly lines: readonly string[];
-  readonly labels: readonly (readonly [text: string, x: number, y: number])[];
+  readonly labels: readonly (readonly [
+    text: string,
+    x: number,
+    y: number,
+  ])[];
   readonly nodes: Readonly<Record<OrganismId, NodeLayout>>;
 }
 

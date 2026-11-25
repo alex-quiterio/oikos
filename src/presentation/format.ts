@@ -1,13 +1,27 @@
-import type { ClaimKind, Evidence, FlowType, OrganismGroup } from '@domain';
+import type {
+  ClaimKind,
+  Evidence,
+  FlowType,
+  OrganismGroup,
+} from '@domain';
 
 export type RelationType = FlowType | 'ctl';
 
-export const FLOW_TYPES: Record<RelationType, { name: string; hint: string }> = {
+export const FLOW_TYPES: Record<
+  RelationType,
+  { name: string; hint: string }
+> = {
   energy: { name: 'Energy', hint: 'sugars, tissue, prey' },
   nitrogen: { name: 'Nitrogen', hint: 'protein, ammonium, nitrate' },
-  phosphorus: { name: 'Phosphorus', hint: 'often the scarce nutrient' },
+  phosphorus: {
+    name: 'Phosphorus',
+    hint: 'often the scarce nutrient',
+  },
   seeds: { name: 'Seeds & spores', hint: 'living cargo' },
-  ctl: { name: 'Controls', hint: 'who holds whom in check. Not a flow.' },
+  ctl: {
+    name: 'Controls',
+    hint: 'who holds whom in check. Not a flow.',
+  },
 };
 
 export const GROUP_NAMES: Record<OrganismGroup, string> = {
@@ -28,7 +42,12 @@ export const EVIDENCE_NAMES: Record<Evidence, string> = {
   unknown: 'unknown',
 };
 
-export const EVIDENCE_ORDER: readonly Evidence[] = ['documented', 'likely', 'debated', 'unknown'];
+export const EVIDENCE_ORDER: readonly Evidence[] = [
+  'documented',
+  'likely',
+  'debated',
+  'unknown',
+];
 
 export const CLAIM_NAMES: Record<ClaimKind, string> = {
   keystone: 'Keystone',
@@ -39,7 +58,11 @@ export const CLAIM_NAMES: Record<ClaimKind, string> = {
   disperser: 'Seed disperser',
 };
 
-export const CLAIM_GLYPH = { documented: '◆', proposed: '◇', contested: '?' } as const;
+export const CLAIM_GLYPH = {
+  documented: '◆',
+  proposed: '◇',
+  contested: '?',
+} as const;
 
 export function percentChange(supply: number): string {
   const p = Math.round((supply - 1) * 100);

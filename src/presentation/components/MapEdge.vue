@@ -7,13 +7,22 @@ import type { EdgeView } from '@presentation/types';
 const props = defineProps<{ edge: EdgeView }>();
 const store = useAtlasStore();
 const width = (w: number): number => 0.9 + w * 0.85;
-const live = computed(() => props.edge.isControl || props.edge.strength >= 0.04);
+const live = computed(
+  () => props.edge.isControl || props.edge.strength >= 0.04,
+);
 const lineWidth = computed(() => {
   const e = props.edge;
-  if (e.isControl) return e.active > 0.05 ? 1.5 + Math.min(e.active, 2) * 2.5 : e.weight;
+  if (e.isControl)
+    return e.active > 0.05
+      ? 1.5 + Math.min(e.active, 2) * 2.5
+      : e.weight;
   return width(Math.min(e.weight * e.strength, 6));
 });
-const questionMark = computed(() => props.edge.evidence === 'debated' || props.edge.evidence === 'unknown');
+const questionMark = computed(
+  () =>
+    props.edge.evidence === 'debated' ||
+    props.edge.evidence === 'unknown',
+);
 </script>
 
 <template>
@@ -32,7 +41,12 @@ const questionMark = computed(() => props.edge.evidence === 'debated' || props.e
       },
     ]"
   >
-    <path v-if="edge.shadow" class="ghost" :d="edge.geometry.d" :stroke-width="width(edge.weight)" />
+    <path
+      v-if="edge.shadow"
+      class="ghost"
+      :d="edge.geometry.d"
+      :stroke-width="width(edge.weight)"
+    />
     <path
       v-show="live"
       class="line"
@@ -47,7 +61,11 @@ const questionMark = computed(() => props.edge.evidence === 'debated' || props.e
       @pointerleave="store.hover(null)"
       @click.stop="store.hover(edge.id)"
     />
-    <text v-if="questionMark && live" class="qm" :x="edge.geometry.mid.x" :y="edge.geometry.mid.y + 6"
+    <text
+      v-if="questionMark && live"
+      class="qm"
+      :x="edge.geometry.mid.x"
+      :y="edge.geometry.mid.y + 6"
       >?</text
     >
   </g>

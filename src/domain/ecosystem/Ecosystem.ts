@@ -78,23 +78,34 @@ export class Ecosystem {
     }
     const relIds = new Set<string>();
     for (const r of [...props.flows, ...props.controls]) {
-      if (!ids.has(r.from) || !ids.has(r.to)) fail(`${r.id} refers to an unknown organism`);
+      if (!ids.has(r.from) || !ids.has(r.to))
+        fail(`${r.id} refers to an unknown organism`);
       if (relIds.has(r.id)) fail(`duplicate relationship ${r.id}`);
       relIds.add(r.id);
     }
-    if (props.scenarios.length === 0) fail('needs a reference scenario');
+    if (props.scenarios.length === 0)
+      fail('needs a reference scenario');
     for (const s of props.scenarios) {
       for (const id of Object.keys(s.abundance))
-        if (!ids.has(id)) fail(`scenario ${s.id} abundance names unknown organism ${id}`);
+        if (!ids.has(id))
+          fail(
+            `scenario ${s.id} abundance names unknown organism ${id}`,
+          );
       for (const id of Object.keys(s.factors))
-        if (!relIds.has(id)) fail(`scenario ${s.id} factor names unknown relationship ${id}`);
+        if (!relIds.has(id))
+          fail(
+            `scenario ${s.id} factor names unknown relationship ${id}`,
+          );
       if (s.unknowns.length === 0 && s !== props.scenarios[0])
         fail(`scenario ${s.id} must say what is unknown`);
     }
     for (const q of props.questions)
-      for (const id of q.relatedIds) if (!relIds.has(id)) fail(`question names unknown relationship ${id}`);
+      for (const id of q.relatedIds)
+        if (!relIds.has(id))
+          fail(`question names unknown relationship ${id}`);
     for (const st of props.stories)
-      for (const id of st.organismIds ?? []) if (!ids.has(id)) fail(`story names unknown organism ${id}`);
+      for (const id of st.organismIds ?? [])
+        if (!ids.has(id)) fail(`story names unknown organism ${id}`);
     return new Ecosystem(props);
   }
 
@@ -104,7 +115,10 @@ export class Ecosystem {
 
   organism(id: OrganismId): Organism {
     const o = this.byId.get(id);
-    if (!o) throw new InvalidEcosystemError(`${this.id}: unknown organism ${id}`);
+    if (!o)
+      throw new InvalidEcosystemError(
+        `${this.id}: unknown organism ${id}`,
+      );
     return o;
   }
 

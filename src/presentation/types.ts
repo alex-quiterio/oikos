@@ -1,4 +1,11 @@
-import type { ClaimStatus, Evidence, KeystoneClaim, OrganismGroup, OrganismId } from '@domain';
+import type {
+  ClaimStatus,
+  Evidence,
+  KeystoneClaim,
+  OrganismGroup,
+  OrganismId,
+  StressLevel,
+} from '@domain';
 import type { NodeLayout } from '@application';
 import type { EdgeGeometry } from './geometry';
 import type { RelationType } from './format';
@@ -38,6 +45,7 @@ export interface NodeView {
   readonly delta: string;
   readonly removed: boolean;
   readonly low: boolean;
+  readonly stress: StressLevel;
   readonly dim: boolean;
   readonly selected: boolean;
   /** 0 to 1 share of the highest structural dependence in this scenario. Only set when the keystone lens is on. */
@@ -46,4 +54,5 @@ export interface NodeView {
   readonly claimStatus?: ClaimStatus;
 }
 
-export type PanelTab = 'inspect' | 'scenario' | 'keystones' | 'evidence';
+export type PanelTab =
+  'inspect' | 'scenario' | 'keystones' | 'evidence';

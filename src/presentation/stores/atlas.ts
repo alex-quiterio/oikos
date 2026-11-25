@@ -1,10 +1,25 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
-import { isModelled, type Control, type Evidence, type Flow, type OrganismId, type Story } from '@domain';
+import { computed, ref, watch } from 'vue';
+import {
+  isModelled,
+  stressOf,
+  type Control,
+  type Evidence,
+  type Flow,
+  type OrganismId,
+  type Story,
+} from '@domain';
 import type { AtlasEntry } from '@application';
-import { EVIDENCE_ORDER, type RelationType } from '@presentation/format';
+import {
+  EVIDENCE_ORDER,
+  type RelationType,
+} from '@presentation/format';
 import { layoutEdges } from '@presentation/geometry';
-import type { EdgeView, NodeView, PanelTab } from '@presentation/types';
+import type {
+  EdgeView,
+  NodeView,
+  PanelTab,
+} from '@presentation/types';
 import { atlasService } from './service';
 
 export interface StoryView extends Story {
@@ -29,7 +44,10 @@ export const useAtlasStore = defineStore('atlas', () => {
   const tab = ref<PanelTab>('inspect');
   const lens = ref(false);
   const showUnknown = ref(true);
-  const motion = ref(!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+  const motion = ref(
+    !globalThis.matchMedia?.('(prefers-reduced-motion: reduce)')
+      .matches,
+  );
   const hiddenTypes = ref<RelationType[]>([]);
   const removed = ref<OrganismId[]>([]);
   const focusIds = ref<string[] | null>(null);
@@ -37,17 +55,26 @@ export const useAtlasStore = defineStore('atlas', () => {
   const hoveredId = ref<string | null>(null);
 
   // --- domain lookups
-  const entry = computed<AtlasEntry>(() => service.entry(ecosystemId.value));
+  const entry = computed<AtlasEntry>(() =>
+    service.entry(ecosystemId.value),
+  );
   const ecosystem = computed(() => entry.value.ecosystem);
   const layout = computed(() => entry.value.layout);
-  const scenario = computed(() => ecosystem.value.scenario(scenarioId.value));
+  const scenario = computed(() =>
+    ecosystem.value.scenario(scenarioId.value),
+  );
   const isReference = computed(
-    () => scenario.value.id === ecosystem.value.reference.id && removed.value.length === 0,
+    () =>
+      scenario.value.id === ecosystem.value.reference.id &&
+      removed.value.length === 0,
   );
   const removedSet = computed(() => new Set(removed.value));
 
   const stories = computed<StoryView[]>(() => [
-    ...ecosystem.value.stories.map(s => ({ ...s, kind: 'story' as const })),
+    ...ecosystem.value.stories.map(s => ({
+      ...s,
+      kind: 'story' as const,
+    })),
     {
       title: 'Open questions',
       text: 'Flows we suspect, argue about, or cannot yet measure. They are drawn dashed or dotted and stay out of the scenario arithmetic.',
@@ -55,24 +82,89 @@ export const useAtlasStore = defineStore('atlas', () => {
       kind: 'questions' as const,
     },
   ]);
-  const story = computed(() => stories.value[storyIndex.value] ?? (stories.value[0] as StoryView));
+  const story = computed(
+    () =>
+      stories.value[storyIndex.value] ??
+      (stories.value[0] as StoryView),
+  );
 
   // --- simulation
-  const simulation = computed(() => service.simulate(ecosystem.value, scenario.value, removedSet.value));
+  const simulation = computed(() =>
+    service.simulate(
+      ecosystem.value,
+      scenario.value,
+      removedSet.value,
+    ),
+  );
+  const health = computed(() =>
+    service.health(ecosystem.value, simulation.value),
+  );
+  /** Recent health readings, oldest first, so the page can show the numbers falling as you act. */
+  const trail = ref<{ intact: number; mean: number }[]>([]);
+  watch(
+    health,
+    h => {
+      const last = trail.value[trail.value.length - 1];
+      if (
+        last &&
+        last.intact === h.intact &&
+        last.mean === h.meanSupply
+      )
+        return;
+      trail.value = [
+        ...trail.value.slice(-39),
+        { intact: h.intact, mean: h.meanSupply },
+      ];
+    },
+    { immediate: true, flush: 'sync' },
+  );
+  /** Change in the share intact since the previous reading, in points. */
+  const healthChange = computed(() => {
+    const t = trail.value;
+    return t.length < 2
+      ? 0
+      : (t[t.length - 1]!.intact - t[t.length - 2]!.intact) * 100;
+  });
+  const collapsePlaying = ref(false);
+  let timer: ReturnType<typeof setInterval> | undefined;
+  const collapse = computed(() =>
+    tab.value === 'keystones'
+      ? service.collapse(ecosystem.value, scenario.value)
+      : null,
+  );
+  /** How many organisms of the collapse sequence are removed right now, or null when the removals are by hand. */
+  const collapseStep = computed<number | null>(() => {
+    const steps = collapse.value;
+    if (!steps) return null;
+    const k = removed.value.length;
+    const match = steps[k];
+    if (!match) return null;
+    const want = new Set(match.removed);
+    return removed.value.every(id => want.has(id)) ? k : null;
+  });
   const keystones = computed(() =>
-    lens.value || tab.value === 'keystones' ? service.keystones(ecosystem.value, scenario.value) : null,
+    lens.value || tab.value === 'keystones'
+      ? service.keystones(ecosystem.value, scenario.value)
+      : null,
   );
 
   // --- geometry is fixed per ecosystem
-  const relationships = computed(() => [...ecosystem.value.flows, ...ecosystem.value.controls]);
-  const geometry = computed(() => layoutEdges(layout.value, relationships.value));
+  const relationships = computed(() => [
+    ...ecosystem.value.flows,
+    ...ecosystem.value.controls,
+  ]);
+  const geometry = computed(() =>
+    layoutEdges(layout.value, relationships.value),
+  );
 
   // --- view models
   const edgeViews = computed<EdgeView[]>(() => {
     const sim = simulation.value;
     const sel = selectedId.value;
     const focus = focusIds.value ? new Set(focusIds.value) : null;
-    const spot = story.value.organismIds ? new Set(story.value.organismIds) : null;
+    const spot = story.value.organismIds
+      ? new Set(story.value.organismIds)
+      : null;
     const hidden = new Set(hiddenTypes.value);
     const gone = removedSet.value;
     const ref0 = isReference.value;
@@ -83,13 +175,21 @@ export const useAtlasStore = defineStore('atlas', () => {
       const type: RelationType = control ? 'ctl' : r.type;
       const modelled = isModelled(r.evidence);
       const visible =
-        !hidden.has(type) && (showUnknown.value || modelled) && !gone.has(r.from) && !gone.has(r.to);
+        !hidden.has(type) &&
+        (showUnknown.value || modelled) &&
+        !gone.has(r.from) &&
+        !gone.has(r.to);
       let hot = true;
       if (sel) hot = r.from === sel || r.to === sel;
       else if (focus) hot = focus.has(r.id);
       else if (story.value.kind === 'questions') hot = !modelled;
       else if (spot) hot = spot.has(r.from) && spot.has(r.to);
-      const focused = !!(sel || focus || story.value.kind === 'questions' || spot);
+      const focused = !!(
+        sel ||
+        focus ||
+        story.value.kind === 'questions' ||
+        spot
+      );
       const strength = control ? 1 : (sim.flowStrength[r.id] ?? 1);
       return [
         {
@@ -120,10 +220,17 @@ export const useAtlasStore = defineStore('atlas', () => {
   const nodeViews = computed<NodeView[]>(() => {
     const sim = simulation.value;
     const views = edgeViews.value;
-    const maxImpact = Math.max(...(keystones.value?.ranking.map(r => r.impact) ?? [0]), 0.001);
-    const impact = new Map((keystones.value?.ranking ?? []).map(r => [r.id, r.impact]));
+    const maxImpact = Math.max(
+      ...(keystones.value?.ranking.map(r => r.impact) ?? [0]),
+      0.001,
+    );
+    const impact = new Map(
+      (keystones.value?.ranking ?? []).map(r => [r.id, r.impact]),
+    );
     const focus = focusIds.value ? new Set(focusIds.value) : null;
-    const spot = story.value.organismIds ? new Set(story.value.organismIds) : null;
+    const spot = story.value.organismIds
+      ? new Set(story.value.organismIds)
+      : null;
     const near = new Set<string>();
     if (selectedId.value)
       for (const e of views)
@@ -151,9 +258,11 @@ export const useAtlasStore = defineStore('atlas', () => {
       const supply = sim.supply[o.id] ?? 1;
       const gone = removedSet.value.has(o.id);
       let dim = false;
-      if (selectedId.value) dim = o.id !== selectedId.value && !near.has(o.id);
+      if (selectedId.value)
+        dim = o.id !== selectedId.value && !near.has(o.id);
       else if (focus) dim = !touchedByFocus.has(o.id);
-      else if (story.value.kind === 'questions') dim = !touchedByUnknown.has(o.id);
+      else if (story.value.kind === 'questions')
+        dim = !touchedByUnknown.has(o.id);
       else if (spot) dim = !spot.has(o.id);
       return [
         {
@@ -168,9 +277,12 @@ export const useAtlasStore = defineStore('atlas', () => {
               : '',
           removed: gone,
           low: !gone && supply < 0.6,
+          stress: gone ? 'lost' : stressOf(supply),
           dim: dim && !gone,
           selected: selectedId.value === o.id,
-          ring: lens.value ? 0.1 + (0.9 * (impact.get(o.id) ?? 0)) / maxImpact : 0,
+          ring: lens.value
+            ? 0.1 + (0.9 * (impact.get(o.id) ?? 0)) / maxImpact
+            : 0,
           claim: o.claim,
           claimStatus: o.claim?.status,
         },
@@ -178,7 +290,9 @@ export const useAtlasStore = defineStore('atlas', () => {
     });
   });
 
-  const hoveredEdge = computed(() => edgeViews.value.find(e => e.id === hoveredId.value) ?? null);
+  const hoveredEdge = computed(
+    () => edgeViews.value.find(e => e.id === hoveredId.value) ?? null,
+  );
 
   // --- actions
   function clearFocus(): void {
@@ -194,13 +308,19 @@ export const useAtlasStore = defineStore('atlas', () => {
     removed.value = [];
     focusIds.value = null;
     hiddenTypes.value = [];
+    stopCollapse();
+    trail.value = [];
+    trail.value = [
+      { intact: health.value.intact, mean: health.value.meanSupply },
+    ];
   }
   function showScenario(id: string): void {
     scenarioId.value = ecosystem.value.scenario(id).id;
     selectedId.value = null;
     focusIds.value = null;
     removed.value = [];
-    if (scenarioId.value !== ecosystem.value.reference.id) tab.value = 'scenario';
+    if (scenarioId.value !== ecosystem.value.reference.id)
+      tab.value = 'scenario';
   }
   function select(id: OrganismId | null): void {
     selectedId.value = id;
@@ -221,13 +341,41 @@ export const useAtlasStore = defineStore('atlas', () => {
     selectedId.value = null;
   }
   function toggleRemoved(id: OrganismId): void {
-    removed.value = removed.value.includes(id) ? removed.value.filter(x => x !== id) : [...removed.value, id];
+    removed.value = removed.value.includes(id)
+      ? removed.value.filter(x => x !== id)
+      : [...removed.value, id];
+  }
+  function setCollapseStep(k: number): void {
+    const step = collapse.value?.[k];
+    if (!step) return;
+    removed.value = [...step.removed];
+    selectedId.value = null;
+  }
+  function stopCollapse(): void {
+    if (timer) clearInterval(timer);
+    timer = undefined;
+    collapsePlaying.value = false;
+  }
+  /** Step through the collapse sequence on a timer so the numbers can be watched falling. */
+  function playCollapse(intervalMs = 900): void {
+    const steps = collapse.value;
+    if (!steps) return;
+    stopCollapse();
+    let k = 0;
+    setCollapseStep(0);
+    collapsePlaying.value = true;
+    timer = setInterval(() => {
+      k += 1;
+      if (k >= steps.length) return stopCollapse();
+      setCollapseStep(k);
+    }, intervalMs);
   }
   function testRemoval(id: OrganismId): void {
     removed.value = removed.value.includes(id) ? [] : [id];
     selectedId.value = null;
   }
   const restoreAll = (): void => {
+    stopCollapse();
     removed.value = [];
   };
   function toggleType(t: RelationType): void {
@@ -279,6 +427,14 @@ export const useAtlasStore = defineStore('atlas', () => {
     stories,
     story,
     simulation,
+    health,
+    collapse,
+    collapseStep,
+    trail,
+    healthChange,
+    collapsePlaying,
+    playCollapse,
+    stopCollapse,
     keystones,
     edgeViews,
     nodeViews,
@@ -291,6 +447,7 @@ export const useAtlasStore = defineStore('atlas', () => {
     clearFocus,
     toggleRemoved,
     testRemoval,
+    setCollapseStep,
     restoreAll,
     toggleType,
     toggleEvidence,

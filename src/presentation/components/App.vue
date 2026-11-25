@@ -3,6 +3,7 @@ import { useHashRoute } from '@presentation/composables';
 import { useAtlasStore } from '@presentation/stores';
 import ControlBar from './ControlBar.vue';
 import EcosystemHeader from './EcosystemHeader.vue';
+import HealthMeter from './HealthMeter.vue';
 import FlowFigure from './FlowFigure.vue';
 import MastHead from './MastHead.vue';
 import ProseSections from './ProseSections.vue';
@@ -23,6 +24,7 @@ const onEscape = (): void => {
     <main class="wrap pad">
       <EcosystemHeader />
       <ControlBar />
+      <HealthMeter />
       <StatusBar />
       <section class="stage">
         <FlowFigure />

@@ -17,8 +17,15 @@ export const salmonRainforest: EcosystemDto = {
     h: 830,
     sky: 'land',
     bands: [
-      { d: 'M0 0 H310 Q335 210 305 420 T320 830 H0 Z', fill: 'water' },
-      { d: 'M310 0 Q340 200 310 420 T335 830 H640 Q610 620 640 420 T620 0 Z', fill: 'water', opacity: 0.55 },
+      {
+        d: 'M0 0 H310 Q335 210 305 420 T320 830 H0 Z',
+        fill: 'water',
+      },
+      {
+        d: 'M310 0 Q340 200 310 420 T335 830 H640 Q610 620 640 420 T620 0 Z',
+        fill: 'water',
+        opacity: 0.55,
+      },
     ],
     lines: [],
     labels: [
@@ -213,25 +220,95 @@ export const salmonRainforest: EcosystemDto = {
       'Coastal wolves in British Columbia are known to eat salmon in season.',
     ],
     ['salmon', 'gull', 'energy', 3, 'E', 'carcasses and spawners'],
-    ['salmon', 'inv', 'energy', 2, 'L', 'eggs and carcass tissue eaten'],
+    [
+      'salmon',
+      'inv',
+      'energy',
+      2,
+      'L',
+      'eggs and carcass tissue eaten',
+    ],
     ['salmon', 'litter', 'energy', 3, 'E', 'carcasses left on banks'],
-    ['bear', 'litter', 'energy', 2, 'E', 'part-eaten carcasses carried into the forest'],
-    ['litter', 'fly', 'energy', 3, 'E', 'carcasses colonised by flies'],
-    ['fly', 'songb', 'energy', 2, 'E', 'fly larvae feed riparian birds'],
+    [
+      'bear',
+      'litter',
+      'energy',
+      2,
+      'E',
+      'part-eaten carcasses carried into the forest',
+    ],
+    [
+      'litter',
+      'fly',
+      'energy',
+      3,
+      'E',
+      'carcasses colonised by flies',
+    ],
+    [
+      'fly',
+      'songb',
+      'energy',
+      2,
+      'E',
+      'fly larvae feed riparian birds',
+    ],
     ['alg', 'inv', 'energy', 3, 'E', 'grazing'],
-    ['spruce', 'inv', 'energy', 2, 'E', 'needles and woody debris in the stream'],
-    ['inv', 'fry', 'energy', 3, 'E', 'juvenile salmon feed on insects'],
+    [
+      'spruce',
+      'inv',
+      'energy',
+      2,
+      'E',
+      'needles and woody debris in the stream',
+    ],
+    [
+      'inv',
+      'fry',
+      'energy',
+      3,
+      'E',
+      'juvenile salmon feed on insects',
+    ],
     ['litter', 'soil', 'energy', 4, 'E', 'decomposition'],
     ['spruce', 'litter', 'energy', 4, 'E', 'needles and wood fall'],
     ['under', 'litter', 'energy', 2, 'E', 'leaf fall'],
     ['under', 'deer', 'energy', 3, 'E', 'browse'],
     ['deer', 'wolf', 'energy', 3, 'E', 'prey'],
     // nitrogen
-    ['salmon', 'alg', 'nitrogen', 3, 'E', 'carcass nutrients feed stream algae'],
-    ['salmon', 'litter', 'nitrogen', 3, 'E', 'carcass nitrogen onto the forest floor'],
-    ['bear', 'litter', 'nitrogen', 4, 'E', 'carcass remains, urine and droppings'],
+    [
+      'salmon',
+      'alg',
+      'nitrogen',
+      3,
+      'E',
+      'carcass nutrients feed stream algae',
+    ],
+    [
+      'salmon',
+      'litter',
+      'nitrogen',
+      3,
+      'E',
+      'carcass nitrogen onto the forest floor',
+    ],
+    [
+      'bear',
+      'litter',
+      'nitrogen',
+      4,
+      'E',
+      'carcass remains, urine and droppings',
+    ],
     ['wolf', 'litter', 'nitrogen', 2, 'L', 'droppings and kills'],
-    ['gull', 'litter', 'nitrogen', 1, 'L', 'carcass fragments and droppings'],
+    [
+      'gull',
+      'litter',
+      'nitrogen',
+      1,
+      'L',
+      'carcass fragments and droppings',
+    ],
     ['litter', 'soil', 'nitrogen', 3, 'E', 'mineralisation'],
     [
       'soil',
@@ -242,9 +319,23 @@ export const salmonRainforest: EcosystemDto = {
       'marine-derived nitrogen reaches the foliage',
       'Marine nitrogen is detectable in riparian conifers. Published estimates of its share vary widely by stream.',
     ],
-    ['soil', 'under', 'nitrogen', 3, 'E', 'marine-derived nitrogen in understory shrubs'],
+    [
+      'soil',
+      'under',
+      'nitrogen',
+      3,
+      'E',
+      'marine-derived nitrogen in understory shrubs',
+    ],
     // phosphorus
-    ['salmon', 'alg', 'phosphorus', 2, 'L', 'carcass phosphorus feeds stream biofilm'],
+    [
+      'salmon',
+      'alg',
+      'phosphorus',
+      2,
+      'L',
+      'carcass phosphorus feeds stream biofilm',
+    ],
     ['salmon', 'litter', 'phosphorus', 3, 'L', 'bones and tissue'],
     ['bear', 'litter', 'phosphorus', 2, 'L', 'carcass remains'],
     ['litter', 'soil', 'phosphorus', 2, 'L', 'mineralisation'],
@@ -254,8 +345,22 @@ export const salmonRainforest: EcosystemDto = {
     ['fry', 'ocean', 'seeds', 3, 'E', 'smolts migrate to sea'],
     ['bear', 'under', 'seeds', 1, 'L', 'berry seeds in droppings'],
     // unknown
-    ['gull', 'spruce', 'nitrogen', 1, 'U', 'nutrients carried inland by birds?'],
-    ['wolf', 'litter', 'phosphorus', 1, 'U', 'phosphorus in wolf droppings?'],
+    [
+      'gull',
+      'spruce',
+      'nitrogen',
+      1,
+      'U',
+      'nutrients carried inland by birds?',
+    ],
+    [
+      'wolf',
+      'litter',
+      'phosphorus',
+      1,
+      'U',
+      'phosphorus in wolf droppings?',
+    ],
   ],
   controls: [
     [
@@ -267,7 +372,14 @@ export const salmonRainforest: EcosystemDto = {
       'wolves limit deer',
       'Coastal wolves eat deer and salmon. How strongly they limit deer varies by area.',
     ],
-    ['deer', 'under', 'pressure', 0.5, 'L', 'deer browse presses the understory'],
+    [
+      'deer',
+      'under',
+      'pressure',
+      0.5,
+      'L',
+      'deer browse presses the understory',
+    ],
   ],
   stories: [
     {
@@ -277,7 +389,19 @@ export const salmonRainforest: EcosystemDto = {
     },
     {
       t: 'Fish to forest',
-      nodes: ['ocean', 'salmon', 'bear', 'wolf', 'gull', 'litter', 'fly', 'songb', 'soil', 'spruce', 'under'],
+      nodes: [
+        'ocean',
+        'salmon',
+        'bear',
+        'wolf',
+        'gull',
+        'litter',
+        'fly',
+        'songb',
+        'soil',
+        'spruce',
+        'under',
+      ],
       x: 'A salmon is dragged from the stream, eaten in part, and left on the moss. Flies, microbes and roots turn what is left into leaf, and some of that leaf is browsed by deer that wolves eat.',
     },
     {
@@ -310,12 +434,21 @@ export const salmonRainforest: EcosystemDto = {
     {
       t: 'Do birds and wolves move nutrients inland as well?',
       x: 'Plausible and visible, but rarely measured.',
-      ids: ['gull>spruce:nitrogen', 'gull>litter:nitrogen', 'wolf>litter:nitrogen', 'wolf>litter:phosphorus'],
+      ids: [
+        'gull>spruce:nitrogen',
+        'gull>litter:nitrogen',
+        'wolf>litter:nitrogen',
+        'wolf>litter:phosphorus',
+      ],
     },
     {
       t: 'How much phosphorus travels with salmon?',
       x: 'Nitrogen has been traced more often than phosphorus.',
-      ids: ['salmon>alg:phosphorus', 'salmon>litter:phosphorus', 'bear>litter:phosphorus'],
+      ids: [
+        'salmon>alg:phosphorus',
+        'salmon>litter:phosphorus',
+        'bear>litter:phosphorus',
+      ],
     },
   ],
   omitted:
@@ -339,12 +472,16 @@ export const salmonRainforest: EcosystemDto = {
     {
       id: 'run-collapse',
       name: 'Run collapse',
-      summary: 'Returning spawners fall to a fifth of the reference run, as has happened in some rivers.',
+      summary:
+        'Returning spawners fall to a fifth of the reference run, as has happened in some rivers.',
       abundance: { salmon: 0.2 },
       factors: {},
       assumes: [
         ['L', 'Spawners fall to about 20% of the reference run.'],
-        ['L', 'Bears, wolves and birds find proportionally less to eat.'],
+        [
+          'L',
+          'Bears, wolves and birds find proportionally less to eat.',
+        ],
       ],
       unknowns: [
         'How far alternative foods let bears and wolves hold their numbers.',
@@ -355,7 +492,8 @@ export const salmonRainforest: EcosystemDto = {
     {
       id: 'no-bears',
       name: 'Bears removed',
-      summary: 'Bears are absent, so fewer carcasses are carried away from the stream.',
+      summary:
+        'Bears are absent, so fewer carcasses are carried away from the stream.',
       abundance: { bear: 0 },
       factors: {
         'salmon>litter:energy': 0.5,
@@ -378,7 +516,8 @@ export const salmonRainforest: EcosystemDto = {
     {
       id: 'riparian-logging',
       name: 'Riparian logging',
-      summary: 'Large trees beside the stream are cut. Less shade, leaf litter and wood reach the water.',
+      summary:
+        'Large trees beside the stream are cut. Less shade, leaf litter and wood reach the water.',
       abundance: { spruce: 0.4 },
       factors: { 'spruce>inv:energy': 0.5 },
       assumes: [

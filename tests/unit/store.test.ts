@@ -14,7 +14,9 @@ describe('atlas store', () => {
     const s = useAtlasStore();
     expect(s.ecosystem.id).toBe('montado');
     expect(s.isReference).toBe(true);
-    expect(s.edgeViews.length).toBe(s.ecosystem.flows.length + s.ecosystem.controls.length);
+    expect(s.edgeViews.length).toBe(
+      s.ecosystem.flows.length + s.ecosystem.controls.length,
+    );
   });
 
   test('choosing a scenario opens the scenario tab and draws shadows where flows change', () => {
@@ -33,14 +35,19 @@ describe('atlas store', () => {
     s.select('rab');
     const hot = s.edgeViews.filter(e => e.hot);
     expect(hot.length).toBeGreaterThan(0);
-    for (const e of hot) expect(e.from === 'rab' || e.to === 'rab').toBe(true);
+    for (const e of hot)
+      expect(e.from === 'rab' || e.to === 'rab').toBe(true);
     expect(s.nodeViews.find(n => n.id === 'jay')?.dim).toBe(true);
   });
 
   test('hiding a flow type hides its edges', () => {
     const s = useAtlasStore();
     s.toggleType('seeds');
-    expect(s.edgeViews.filter(e => e.type === 'seeds').every(e => !e.visible)).toBe(true);
+    expect(
+      s.edgeViews
+        .filter(e => e.type === 'seeds')
+        .every(e => !e.visible),
+    ).toBe(true);
   });
 
   test('open questions spotlight only debated and unknown flows', () => {
@@ -65,8 +72,13 @@ describe('atlas store', () => {
     s.showEcosystem('kelp-forest');
     s.toggleLens();
     expect(s.keystones?.ranking.length).toBeGreaterThan(5);
-    expect(s.nodeViews.find(n => n.id === 'otter')?.claim?.status).toBe('documented');
-    expect(Math.max(...s.nodeViews.map(n => n.ring))).toBeCloseTo(1, 5);
+    expect(
+      s.nodeViews.find(n => n.id === 'otter')?.claim?.status,
+    ).toBe('documented');
+    expect(Math.max(...s.nodeViews.map(n => n.ring))).toBeCloseTo(
+      1,
+      5,
+    );
   });
 
   test('removing an organism by hand reports it and propagates', () => {
@@ -74,6 +86,59 @@ describe('atlas store', () => {
     s.toggleRemoved('rab');
     expect(s.isReference).toBe(false);
     expect(s.nodeViews.find(n => n.id === 'rab')?.removed).toBe(true);
-    expect(s.edgeViews.filter(e => e.from === 'rab').every(e => !e.visible)).toBe(true);
+    expect(
+      s.edgeViews
+        .filter(e => e.from === 'rab')
+        .every(e => !e.visible),
+    ).toBe(true);
+  });
+
+  test('health falls when a scenario runs and when organisms are removed', () => {
+    const s = useAtlasStore();
+    expect(s.health.intact).toBe(1);
+    s.showScenario('rabbit-collapse');
+    const scenarioOnly = s.health.intact;
+    expect(scenarioOnly).toBeLessThan(1);
+    s.toggleRemoved('oak');
+    expect(s.health.intact).toBeLessThan(scenarioOnly);
+  });
+
+  test('stepping the collapse sequence removes the top organisms in order', () => {
+    const s = useAtlasStore();
+    s.setTab('keystones');
+    expect(s.collapse?.length).toBeGreaterThan(5);
+    expect(s.collapseStep).toBe(0);
+    s.setCollapseStep(3);
+    expect(s.removed.length).toBe(3);
+    expect(s.collapseStep).toBe(3);
+    expect(s.health.intact).toBeLessThan(0.9);
+    s.toggleRemoved('sun');
+    expect(s.collapseStep).toBeNull();
+  });
+
+  test('health trail records each change and the playback steps the sequence', () => {
+    const s = useAtlasStore();
+    s.setTab('keystones');
+    const before = s.trail.length;
+    s.setCollapseStep(2);
+    expect(s.trail.length).toBeGreaterThan(before);
+    expect(s.healthChange).toBeLessThan(0);
+    expect(
+      s.nodeViews.filter(n => n.stress === 'lost').length,
+    ).toBeGreaterThanOrEqual(2);
+    s.playCollapse(10);
+    expect(s.collapsePlaying).toBe(true);
+    expect(s.removed.length).toBe(0);
+    s.stopCollapse();
+    expect(s.collapsePlaying).toBe(false);
+  });
+
+  test('stress levels follow the scenario', () => {
+    const s = useAtlasStore();
+    expect(s.nodeViews.every(n => n.stress === 'ok')).toBe(true);
+    s.showScenario('rabbit-collapse');
+    expect(s.nodeViews.find(n => n.id === 'lynx')?.stress).toBe(
+      'severe',
+    );
   });
 });

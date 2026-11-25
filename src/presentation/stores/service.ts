@@ -8,6 +8,9 @@ export function configureAtlas(service: AtlasService): void {
 }
 
 export function atlasService(): AtlasService {
-  if (!current) throw new Error('configureAtlas() must be called before the atlas store is used.');
+  if (!current)
+    throw new Error(
+      'configureAtlas() must be called before the atlas store is used.',
+    );
   return current;
 }

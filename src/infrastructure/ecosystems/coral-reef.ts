@@ -222,12 +222,40 @@ export const coralReef: EcosystemDto = {
       'In many reef corals the algae supply most of the host’s energy. The share varies by species and condition.',
     ],
     ['zoo', 'coral', 'energy', 2, 'E', 'polyps catch zooplankton'],
-    ['ocean', 'zoo', 'energy', 3, 'E', 'plankton arrives on the current'],
+    [
+      'ocean',
+      'zoo',
+      'energy',
+      3,
+      'E',
+      'plankton arrives on the current',
+    ],
     ['ocean', 'sponge', 'energy', 3, 'E', 'dissolved organic matter'],
-    ['zoo', 'pfish', 'energy', 3, 'E', 'plankton picked from the water'],
+    [
+      'zoo',
+      'pfish',
+      'energy',
+      3,
+      'E',
+      'plankton picked from the water',
+    ],
     ['pfish', 'grouper', 'energy', 3, 'E', 'small fish eaten'],
-    ['parrot', 'grouper', 'energy', 2, 'L', 'eaten by large predators'],
-    ['grunt', 'grouper', 'energy', 2, 'E', 'eaten by large predators'],
+    [
+      'parrot',
+      'grouper',
+      'energy',
+      2,
+      'L',
+      'eaten by large predators',
+    ],
+    [
+      'grunt',
+      'grouper',
+      'energy',
+      2,
+      'E',
+      'eaten by large predators',
+    ],
     ['grouper', 'shark', 'energy', 2, 'L', 'eaten by sharks'],
     ['parrot', 'shark', 'energy', 1, 'L', 'eaten by sharks'],
     ['turf', 'parrot', 'energy', 4, 'E', 'grazing'],
@@ -248,23 +276,93 @@ export const coralReef: EcosystemDto = {
     ['detr', 'diad', 'energy', 1, 'L', 'detritus eaten'],
     ['sgr', 'grunt', 'energy', 3, 'L', 'night feeding over seagrass'],
     // nitrogen
-    ['coral', 'zoox', 'nitrogen', 3, 'E', 'host waste ammonium feeds the algae'],
-    ['ocean', 'turf', 'nitrogen', 2, 'L', 'dissolved nutrients in the water'],
+    [
+      'coral',
+      'zoox',
+      'nitrogen',
+      3,
+      'E',
+      'host waste ammonium feeds the algae',
+    ],
+    [
+      'ocean',
+      'turf',
+      'nitrogen',
+      2,
+      'L',
+      'dissolved nutrients in the water',
+    ],
     ['bact', 'turf', 'nitrogen', 2, 'L', 'regenerated nitrogen'],
-    ['grunt', 'coral', 'nitrogen', 3, 'E', 'excretion at daytime resting sites'],
-    ['ocean', 'sgr', 'nitrogen', 2, 'L', 'dissolved nutrients in the water'],
+    [
+      'grunt',
+      'coral',
+      'nitrogen',
+      3,
+      'E',
+      'excretion at daytime resting sites',
+    ],
+    [
+      'ocean',
+      'sgr',
+      'nitrogen',
+      2,
+      'L',
+      'dissolved nutrients in the water',
+    ],
     // phosphorus
     ['coral', 'zoox', 'phosphorus', 2, 'L', 'host phosphate'],
-    ['grunt', 'coral', 'phosphorus', 2, 'E', 'excretion at daytime resting sites'],
+    [
+      'grunt',
+      'coral',
+      'phosphorus',
+      2,
+      'E',
+      'excretion at daytime resting sites',
+    ],
     // larvae
-    ['ocean', 'coral', 'seeds', 3, 'E', 'larvae arrive from other reefs'],
-    ['coral', 'ocean', 'seeds', 3, 'E', 'larvae exported to other reefs'],
-    ['coralline', 'coral', 'seeds', 2, 'L', 'a settlement cue for larvae'],
+    [
+      'ocean',
+      'coral',
+      'seeds',
+      3,
+      'E',
+      'larvae arrive from other reefs',
+    ],
+    [
+      'coral',
+      'ocean',
+      'seeds',
+      3,
+      'E',
+      'larvae exported to other reefs',
+    ],
+    [
+      'coralline',
+      'coral',
+      'seeds',
+      2,
+      'L',
+      'a settlement cue for larvae',
+    ],
     // unknown
-    ['shark', 'coral', 'nitrogen', 1, 'U', 'nutrients delivered by reef sharks?'],
+    [
+      'shark',
+      'coral',
+      'nitrogen',
+      1,
+      'U',
+      'nutrients delivered by reef sharks?',
+    ],
   ],
   controls: [
-    ['parrot', 'turf', 'release', 1, 'E', 'grazing fish keep algae short'],
+    [
+      'parrot',
+      'turf',
+      'release',
+      1,
+      'E',
+      'grazing fish keep algae short',
+    ],
     ['diad', 'turf', 'release', 0.8, 'E', 'Diadema keep algae short'],
     [
       'turf',
@@ -293,7 +391,15 @@ export const coralReef: EcosystemDto = {
     },
     {
       t: 'The coral partnership',
-      nodes: ['sun', 'zoox', 'coral', 'zoo', 'ocean', 'grunt', 'pfish'],
+      nodes: [
+        'sun',
+        'zoox',
+        'coral',
+        'zoo',
+        'ocean',
+        'grunt',
+        'pfish',
+      ],
       x: 'A coral is half animal and half alga. The alga makes sugar from light and the coral gives back nitrogen and phosphate. Plankton and the waste of resting fish top up what the open water lacks.',
     },
     {
@@ -326,7 +432,11 @@ export const coralReef: EcosystemDto = {
     {
       t: 'Do nutrients or grazers set algal cover?',
       x: 'Both matter. Which matters more depends on the reef and is debated.',
-      ids: ['ocean>turf:nitrogen', 'parrot>turf:ctl', 'diad>turf:ctl'],
+      ids: [
+        'ocean>turf:nitrogen',
+        'parrot>turf:ctl',
+        'diad>turf:ctl',
+      ],
     },
     {
       t: 'Can corals recover with heat-tolerant algae?',
@@ -336,7 +446,11 @@ export const coralReef: EcosystemDto = {
     {
       t: 'How much do nutrients delivered by fish matter?',
       x: 'Shown for grunts. Unknown for sharks and others.',
-      ids: ['grunt>coral:nitrogen', 'grunt>coral:phosphorus', 'shark>coral:nitrogen'],
+      ids: [
+        'grunt>coral:nitrogen',
+        'grunt>coral:phosphorus',
+        'shark>coral:nitrogen',
+      ],
     },
   ],
   omitted:
@@ -366,7 +480,10 @@ export const coralReef: EcosystemDto = {
       factors: {},
       assumes: [
         ['E', 'Heat stress makes corals expel their algae.'],
-        ['L', 'Algae fall to about 30%. The real fraction varies by coral species and heat dose.'],
+        [
+          'L',
+          'Algae fall to about 30%. The real fraction varies by coral species and heat dose.',
+        ],
       ],
       unknowns: [
         'How much corals can make up with plankton feeding while bleached.',
@@ -377,7 +494,8 @@ export const coralReef: EcosystemDto = {
     {
       id: 'herbivore-loss',
       name: 'Overfished herbivores',
-      summary: 'Parrotfish are heavily fished. Algae face less grazing and begin to press on coral.',
+      summary:
+        'Parrotfish are heavily fished. Algae face less grazing and begin to press on coral.',
       abundance: { parrot: 0.3 },
       factors: {},
       assumes: [
@@ -415,7 +533,10 @@ export const coralReef: EcosystemDto = {
       abundance: { turf: 1.4 },
       factors: {},
       assumes: [
-        ['D', 'Turf and macroalgae rise by 40% when nutrients increase. This assumption is debated.'],
+        [
+          'D',
+          'Turf and macroalgae rise by 40% when nutrients increase. This assumption is debated.',
+        ],
       ],
       unknowns: [
         'Whether nutrients or grazers set algal cover on a given reef.',

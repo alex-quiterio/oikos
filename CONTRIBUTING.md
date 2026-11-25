@@ -1,4 +1,4 @@
-# Contributing
+# Contributing to Oikos
 
 The most useful contributions are corrections, sources and honest unknowns. A flow marked `unknown` is a good result, not a gap to hide.
 

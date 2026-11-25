@@ -33,7 +33,10 @@ export function pointAt(g: EdgeGeometry, t: number): Point {
 }
 
 /** Parallel edges between the same pair bend further apart, and opposite directions bend to opposite sides. */
-export function layoutEdges(layout: MapLayout, edges: readonly Endpoints[]): Record<string, EdgeGeometry> {
+export function layoutEdges(
+  layout: MapLayout,
+  edges: readonly Endpoints[],
+): Record<string, EdgeGeometry> {
   const seen = new Map<string, number>();
   const out: Record<string, EdgeGeometry> = {};
   for (const e of edges) {
@@ -51,7 +54,10 @@ export function layoutEdges(layout: MapLayout, edges: readonly Endpoints[]): Rec
     const p0 = { x: a.x + ux * (a.r + 3), y: a.y + uy * (a.r + 3) };
     const p1 = { x: b.x - ux * (b.r + 9), y: b.y - uy * (b.r + 9) };
     const bend = len * (0.12 + 0.09 * idx);
-    const c = { x: (p0.x + p1.x) / 2 + uy * bend, y: (p0.y + p1.y) / 2 - ux * bend };
+    const c = {
+      x: (p0.x + p1.x) / 2 + uy * bend,
+      y: (p0.y + p1.y) / 2 - ux * bend,
+    };
     const g: EdgeGeometry = {
       d: `M${fix(p0.x)} ${fix(p0.y)} Q${fix(c.x)} ${fix(c.y)} ${fix(p1.x)} ${fix(p1.y)}`,
       p0,

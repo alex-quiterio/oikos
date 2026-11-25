@@ -268,7 +268,14 @@ export const montado: EcosystemDto = {
     ['grass', 'rab', 'energy', 3, 'E', 'grazing'],
     ['grass', 'deer', 'energy', 2, 'E', 'grazing'],
     ['leg', 'rab', 'energy', 2, 'L', 'clover and vetch'],
-    ['cat', 'tit', 'energy', 3, 'E', 'caterpillars feed the nestlings'],
+    [
+      'cat',
+      'tit',
+      'energy',
+      3,
+      'E',
+      'caterpillars feed the nestlings',
+    ],
     ['cat', 'bat', 'energy', 2, 'L', 'adult moths caught in flight'],
     ['mouse', 'fox', 'energy', 2, 'L', 'hunted at night'],
     [
@@ -293,12 +300,26 @@ export const montado: EcosystemDto = {
     ['deer', 'vul', 'energy', 2, 'E', 'carcasses'],
     ['myco', 'mouse', 'energy', 2, 'L', 'underground fungi dug up'],
     ['myco', 'deer', 'energy', 1, 'L', 'mushrooms and truffles'],
-    ['myco', 'bact', 'energy', 2, 'L', 'fungal sugars feed bacteria around the threads'],
+    [
+      'myco',
+      'bact',
+      'energy',
+      2,
+      'L',
+      'fungal sugars feed bacteria around the threads',
+    ],
     ['litter', 'bact', 'energy', 4, 'E', 'decomposition'],
     ['litter', 'worm', 'energy', 3, 'E', 'eaten and ground up'],
     ['bact', 'worm', 'energy', 2, 'L', 'microbes digested'],
     // nitrogen
-    ['air', 'leg', 'nitrogen', 3, 'E', 'rhizobia fix N₂ in root nodules'],
+    [
+      'air',
+      'leg',
+      'nitrogen',
+      3,
+      'E',
+      'rhizobia fix N₂ in root nodules',
+    ],
     ['leg', 'litter', 'nitrogen', 2, 'L', 'nitrogen-rich litter'],
     [
       'litter',
@@ -310,16 +331,65 @@ export const montado: EcosystemDto = {
       'Documented for ectomycorrhizal fungi in other forests. Its share of the oak nitrogen budget here is not known.',
     ],
     ['bact', 'myco', 'nitrogen', 2, 'L', 'ammonium released'],
-    ['myco', 'oak', 'nitrogen', 4, 'E', 'nitrogen delivered to roots'],
-    ['myco', 'grass', 'nitrogen', 2, 'L', 'delivered through grass-root fungi'],
-    ['deer', 'dung', 'nitrogen', 4, 'E', 'dung and urine, nitrogen on the move'],
-    ['dung', 'grass', 'nitrogen', 3, 'L', 'dung buried at root depth'],
-    ['dung', 'bact', 'nitrogen', 2, 'L', 'buried dung feeds the microbes'],
-    ['rab', 'grass', 'nitrogen', 2, 'L', 'latrines concentrate nitrogen'],
+    [
+      'myco',
+      'oak',
+      'nitrogen',
+      4,
+      'E',
+      'nitrogen delivered to roots',
+    ],
+    [
+      'myco',
+      'grass',
+      'nitrogen',
+      2,
+      'L',
+      'delivered through grass-root fungi',
+    ],
+    [
+      'deer',
+      'dung',
+      'nitrogen',
+      4,
+      'E',
+      'dung and urine, nitrogen on the move',
+    ],
+    [
+      'dung',
+      'grass',
+      'nitrogen',
+      3,
+      'L',
+      'dung buried at root depth',
+    ],
+    [
+      'dung',
+      'bact',
+      'nitrogen',
+      2,
+      'L',
+      'buried dung feeds the microbes',
+    ],
+    [
+      'rab',
+      'grass',
+      'nitrogen',
+      2,
+      'L',
+      'latrines concentrate nitrogen',
+    ],
     ['cat', 'litter', 'nitrogen', 2, 'L', 'frass pulse in spring'],
     ['bat', 'litter', 'nitrogen', 2, 'L', 'guano under roost trees'],
     ['lynx', 'litter', 'nitrogen', 1, 'L', 'droppings and kills'],
-    ['eagle', 'litter', 'nitrogen', 1, 'L', 'prey remains under the nest'],
+    [
+      'eagle',
+      'litter',
+      'nitrogen',
+      1,
+      'L',
+      'prey remains under the nest',
+    ],
     ['worm', 'bact', 'nitrogen', 2, 'L', 'casts of mineral nitrogen'],
     // phosphorus
     [
@@ -331,13 +401,62 @@ export const montado: EcosystemDto = {
       'hyphae dissolve phosphate from minerals',
       'Fungi are known to mobilise phosphate from minerals. How much cork oak depends on this instead of recycled litter phosphorus is unknown.',
     ],
-    ['rock', 'bact', 'phosphorus', 2, 'L', 'phosphate-solubilising bacteria'],
-    ['bact', 'myco', 'phosphorus', 3, 'L', 'phosphate released from microbes'],
-    ['myco', 'oak', 'phosphorus', 4, 'E', 'phosphorus delivered to roots'],
-    ['myco', 'grass', 'phosphorus', 2, 'E', 'phosphorus to grass roots'],
-    ['myco', 'leg', 'phosphorus', 2, 'E', 'phosphorus for the nodules'],
-    ['oak', 'litter', 'phosphorus', 3, 'E', 'leaf fall, after the tree reclaims what it can'],
-    ['litter', 'bact', 'phosphorus', 2, 'E', 'organic phosphorus made available'],
+    [
+      'rock',
+      'bact',
+      'phosphorus',
+      2,
+      'L',
+      'phosphate-solubilising bacteria',
+    ],
+    [
+      'bact',
+      'myco',
+      'phosphorus',
+      3,
+      'L',
+      'phosphate released from microbes',
+    ],
+    [
+      'myco',
+      'oak',
+      'phosphorus',
+      4,
+      'E',
+      'phosphorus delivered to roots',
+    ],
+    [
+      'myco',
+      'grass',
+      'phosphorus',
+      2,
+      'E',
+      'phosphorus to grass roots',
+    ],
+    [
+      'myco',
+      'leg',
+      'phosphorus',
+      2,
+      'E',
+      'phosphorus for the nodules',
+    ],
+    [
+      'oak',
+      'litter',
+      'phosphorus',
+      3,
+      'E',
+      'leaf fall, after the tree reclaims what it can',
+    ],
+    [
+      'litter',
+      'bact',
+      'phosphorus',
+      2,
+      'E',
+      'organic phosphorus made available',
+    ],
     [
       'vul',
       'litter',
@@ -392,7 +511,14 @@ export const montado: EcosystemDto = {
       'tits take caterpillars',
       'Insectivorous birds can reduce leaf-eaters in oak woods. The strength in the montado is not measured.',
     ],
-    ['rab', 'grass', 'pressure', 0.5, 'L', 'rabbit grazing presses the understory'],
+    [
+      'rab',
+      'grass',
+      'pressure',
+      0.5,
+      'L',
+      'rabbit grazing presses the understory',
+    ],
     [
       'deer',
       'oak',
@@ -421,7 +547,17 @@ export const montado: EcosystemDto = {
     },
     {
       t: 'The underground trade',
-      nodes: ['sun', 'oak', 'myco', 'rock', 'litter', 'bact', 'grass', 'leg', 'air'],
+      nodes: [
+        'sun',
+        'oak',
+        'myco',
+        'rock',
+        'litter',
+        'bact',
+        'grass',
+        'leg',
+        'air',
+      ],
       x: 'The oak has sunlight but needs phosphorus and usable nitrogen. The fungus has the opposite problem. Sugar goes down and minerals come up. Bacteria in clover roots and microbes in the litter keep the market supplied.',
     },
     {
@@ -431,7 +567,15 @@ export const montado: EcosystemDto = {
     },
     {
       t: 'One rabbit, many predators',
-      nodes: ['grass', 'leg', 'rab', 'lynx', 'eagle', 'fox', 'litter'],
+      nodes: [
+        'grass',
+        'leg',
+        'rab',
+        'lynx',
+        'eagle',
+        'fox',
+        'litter',
+      ],
       x: 'Rabbits turn grass into prey. The lynx and the eagle each have a heavy arrow into the same animal. Try the rabbit collapse scenario to see who is exposed.',
     },
     {
@@ -477,7 +621,12 @@ export const montado: EcosystemDto = {
     {
       t: 'Do tits and bats protect oaks enough to change acorn crops?',
       x: 'Plausible from other forests. Not shown for the montado.',
-      ids: ['bat>oak:energy', 'cat>tit:energy', 'cat>bat:energy', 'bat>cat:ctl'],
+      ids: [
+        'bat>oak:energy',
+        'cat>tit:energy',
+        'cat>bat:energy',
+        'bat>cat:ctl',
+      ],
     },
     {
       t: 'Who moves fungal spores and acorns besides jays and mice?',
@@ -487,7 +636,11 @@ export const montado: EcosystemDto = {
     {
       t: 'How large are the landscape-scale nutrient transfers?',
       x: 'Vultures, large mammals and bats move nutrients between places. The direction is known. The amounts are not.',
-      ids: ['vul>litter:phosphorus', 'bat>litter:nitrogen', 'deer>dung:nitrogen'],
+      ids: [
+        'vul>litter:phosphorus',
+        'bat>litter:nitrogen',
+        'deer>dung:nitrogen',
+      ],
     },
     {
       t: 'Do lynx limit rabbit numbers here?',
@@ -521,8 +674,14 @@ export const montado: EcosystemDto = {
       abundance: { rab: 0.1 },
       factors: {},
       assumes: [
-        ['L', 'Rabbit numbers drop to about 10% of the reference state.'],
-        ['L', 'Grazing, latrine fertilising and seed carrying fall in proportion.'],
+        [
+          'L',
+          'Rabbit numbers drop to about 10% of the reference state.',
+        ],
+        [
+          'L',
+          'Grazing, latrine fertilising and seed carrying fall in proportion.',
+        ],
       ],
       unknowns: [
         'How fast lynx and eagles switch to other prey. The map has no alternative-prey node, so it overstates how trapped they are.',
@@ -533,7 +692,8 @@ export const montado: EcosystemDto = {
     {
       id: 'drought',
       name: 'Drought year',
-      summary: 'A dry year cuts understory growth, reduces the acorn crop, and slows the rotting of litter.',
+      summary:
+        'A dry year cuts understory growth, reduces the acorn crop, and slows the rotting of litter.',
       abundance: { worm: 0.8 },
       factors: {
         'sun>grass:energy': 0.5,
@@ -546,10 +706,19 @@ export const montado: EcosystemDto = {
         'litter>worm:energy': 0.6,
       },
       assumes: [
-        ['E', 'Annual grasses and clovers produce roughly half as much.'],
-        ['L', 'Acorn crop falls to about 60%, since acorn output swings with weather.'],
+        [
+          'E',
+          'Annual grasses and clovers produce roughly half as much.',
+        ],
+        [
+          'L',
+          'Acorn crop falls to about 60%, since acorn output swings with weather.',
+        ],
         ['L', 'Decomposition slows when soil is dry.'],
-        ['L', 'Cork oak is drought-adapted, so its photosynthesis drops less (80%).'],
+        [
+          'L',
+          'Cork oak is drought-adapted, so its photosynthesis drops less (80%).',
+        ],
       ],
       unknowns: [
         'How mycorrhizal exchange changes under drought. Fungi may buffer the tree or compete with it.',
@@ -566,7 +735,10 @@ export const montado: EcosystemDto = {
       factors: { 'oak>litter:energy': 1.3 },
       assumes: [
         ['L', 'Living oak falls to about half.'],
-        ['L', 'Dying wood and leaves raise litter input for a while (assumed +30%).'],
+        [
+          'L',
+          'Dying wood and leaves raise litter input for a while (assumed +30%).',
+        ],
       ],
       unknowns: [
         'How the fungal partners change when the root system fails.',
@@ -588,8 +760,14 @@ export const montado: EcosystemDto = {
       },
       assumes: [
         ['L', 'Deer and pigs rise to 160% of the reference state.'],
-        ['L', 'Dung beetles fall to 40%, a known effect of some dewormer residues.'],
-        ['L', 'Acorns left for mice and jays fall, so seed carrying and recruitment drop.'],
+        [
+          'L',
+          'Dung beetles fall to 40%, a known effect of some dewormer residues.',
+        ],
+        [
+          'L',
+          'Acorns left for mice and jays fall, so seed carrying and recruitment drop.',
+        ],
       ],
       unknowns: [
         'Which dewormers, at what doses, in this region.',

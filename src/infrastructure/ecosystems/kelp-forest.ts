@@ -18,7 +18,10 @@ export const kelpForest: EcosystemDto = {
     h: 830,
     sky: 'water',
     bands: [{ d: `${SEAFLOOR} V830 H0 Z`, fill: 'seabed' }],
-    lines: ['M0 108 Q150 98 300 108 T600 106 T900 110 T1200 104', SEAFLOOR],
+    lines: [
+      'M0 108 Q150 98 300 108 T600 106 T900 110 T1200 104',
+      SEAFLOOR,
+    ],
     labels: [
       ['Sea surface', 170, 92],
       ['Kelp canopy and water column', 16, 134],
@@ -188,14 +191,42 @@ export const kelpForest: EcosystemDto = {
     ['sun', 'phyto', 'energy', 4, 'E', 'photosynthesis'],
     ['phyto', 'zoo', 'energy', 3, 'E', 'grazing'],
     ['phyto', 'fil', 'energy', 3, 'E', 'filtered from the water'],
-    ['zoo', 'kfish', 'energy', 3, 'L', 'plankton picked from the water'],
+    [
+      'zoo',
+      'kfish',
+      'energy',
+      3,
+      'L',
+      'plankton picked from the water',
+    ],
     ['kelp', 'amph', 'energy', 3, 'L', 'blades and the film on them'],
     ['kelp', 'urch', 'energy', 4, 'E', 'grazing'],
     ['kelp', 'detr', 'energy', 4, 'E', 'fronds shed and drift'],
-    ['kelp', 'detr', 'nitrogen', 3, 'E', 'shed fronds carry nitrogen to the floor'],
-    ['detr', 'urch', 'energy', 2, 'E', 'drift kelp caught by urchins'],
+    [
+      'kelp',
+      'detr',
+      'nitrogen',
+      3,
+      'E',
+      'shed fronds carry nitrogen to the floor',
+    ],
+    [
+      'detr',
+      'urch',
+      'energy',
+      2,
+      'E',
+      'drift kelp caught by urchins',
+    ],
     ['detr', 'amph', 'energy', 2, 'L', 'detritus eaten'],
-    ['detr', 'fil', 'energy', 2, 'L', 'particles filtered from the water'],
+    [
+      'detr',
+      'fil',
+      'energy',
+      2,
+      'L',
+      'particles filtered from the water',
+    ],
     ['detr', 'bact', 'energy', 3, 'E', 'decomposition'],
     ['detr', 'crab', 'energy', 1, 'L', 'scavenged'],
     ['amph', 'kfish', 'energy', 3, 'L', 'crustaceans eaten'],
@@ -226,7 +257,14 @@ export const kelpForest: EcosystemDto = {
       'Kelp growth depends on nitrate. Warm surface water carries less of it.',
     ],
     ['nutr', 'phyto', 'nitrogen', 3, 'E', 'nitrate from deep water'],
-    ['bact', 'kelp', 'nitrogen', 2, 'L', 'ammonium from decomposition'],
+    [
+      'bact',
+      'kelp',
+      'nitrogen',
+      2,
+      'L',
+      'ammonium from decomposition',
+    ],
     ['otter', 'detr', 'nitrogen', 1, 'L', 'droppings and carcasses'],
     // debated and unknown
     [
@@ -238,7 +276,14 @@ export const kelpForest: EcosystemDto = {
       'killer whale predation on otters?',
       'Killer whale predation has been proposed as a cause of otter declines in the Aleutians. The evidence is contested.',
     ],
-    ['kfish', 'kelp', 'nitrogen', 1, 'U', 'fish excretion as fertiliser?'],
+    [
+      'kfish',
+      'kelp',
+      'nitrogen',
+      1,
+      'U',
+      'fish excretion as fertiliser?',
+    ],
   ],
   controls: [
     [
@@ -251,7 +296,14 @@ export const kelpForest: EcosystemDto = {
       'Documented in the Aleutians and elsewhere. The strength varies by region and by what else eats urchins.',
     ],
     ['star', 'urch', 'release', 0.8, 'L', 'sea stars eat urchins'],
-    ['crab', 'urch', 'release', 0.4, 'L', 'crabs and lobsters take small urchins'],
+    [
+      'crab',
+      'urch',
+      'release',
+      0.4,
+      'L',
+      'crabs and lobsters take small urchins',
+    ],
     [
       'urch',
       'kelp',
@@ -261,7 +313,14 @@ export const kelpForest: EcosystemDto = {
       'urchin overgrazing clears kelp',
       'Dense urchins can clear kelp and hold the reef in a barren state. Recovery can lag long after urchins are reduced.',
     ],
-    ['orca', 'otter', 'release', 1, 'D', 'killer whales may suppress otters'],
+    [
+      'orca',
+      'otter',
+      'release',
+      1,
+      'D',
+      'killer whales may suppress otters',
+    ],
   ],
   stories: [
     {
@@ -271,7 +330,16 @@ export const kelpForest: EcosystemDto = {
     },
     {
       t: 'Light, water and kelp',
-      nodes: ['sun', 'nutr', 'phyto', 'kelp', 'zoo', 'fil', 'detr', 'bact'],
+      nodes: [
+        'sun',
+        'nutr',
+        'phyto',
+        'kelp',
+        'zoo',
+        'fil',
+        'detr',
+        'bact',
+      ],
       x: 'Light and cold nitrate set how fast kelp grows. Some of the kelp is eaten, and much of it is shed and drifts to the floor, where it feeds animals and microbes.',
     },
     {
@@ -281,7 +349,16 @@ export const kelpForest: EcosystemDto = {
     },
     {
       t: 'Drift and detritus',
-      nodes: ['kelp', 'detr', 'urch', 'amph', 'fil', 'bact', 'crab', 'kfish'],
+      nodes: [
+        'kelp',
+        'detr',
+        'urch',
+        'amph',
+        'fil',
+        'bact',
+        'crab',
+        'kfish',
+      ],
       x: 'Most kelp is not eaten alive. It is shed and drifts. This feeds the floor, and it also feeds urchins that wait for drift, which can keep them alive in a bare reef.',
     },
   ],
@@ -348,10 +425,16 @@ export const kelpForest: EcosystemDto = {
       summary:
         'From 2013 to 2016 a sea star wasting outbreak and a marine heatwave struck the northeast Pacific. Kelp in parts of northern California fell sharply.',
       abundance: { star: 0.05 },
-      factors: { 'nutr>kelp:nitrogen': 0.6, 'nutr>phyto:nitrogen': 0.7 },
+      factors: {
+        'nutr>kelp:nitrogen': 0.6,
+        'nutr>phyto:nitrogen': 0.7,
+      },
       assumes: [
         ['L', 'Sea stars fall to about 5% of the reference level.'],
-        ['L', 'Warm surface water carries less nitrate, so kelp and plankton get less (60% and 70%).'],
+        [
+          'L',
+          'Warm surface water carries less nitrate, so kelp and plankton get less (60% and 70%).',
+        ],
       ],
       unknowns: [
         'Direct heat stress on kelp is not on this map.',

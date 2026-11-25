@@ -13,12 +13,21 @@ describe('every route renders', () => {
   for (const { ecosystem } of entries) {
     for (const scenario of ecosystem.scenarios) {
       test(`#${ecosystem.id}--${scenario.id}`, async () => {
-        history.replaceState(null, '', `#${ecosystem.id}--${scenario.id}`);
+        history.replaceState(
+          null,
+          '',
+          `#${ecosystem.id}--${scenario.id}`,
+        );
         configureAtlas(new AtlasService(new StaticCatalogue()));
-        const w = mount(App, { global: { plugins: [createPinia()] }, attachTo: document.body });
+        const w = mount(App, {
+          global: { plugins: [createPinia()] },
+          attachTo: document.body,
+        });
         await nextTick();
         expect(w.find('h1').text()).toBe(ecosystem.name);
-        expect(w.findAll('.node').length).toBe(ecosystem.organisms.length);
+        expect(w.findAll('.node').length).toBe(
+          ecosystem.organisms.length,
+        );
         w.unmount();
       });
     }

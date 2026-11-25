@@ -1,2 +1,6 @@
 export * from './types';
-export { Ecosystem, InvalidEcosystemError, type EcosystemProps } from './Ecosystem';
+export {
+  Ecosystem,
+  InvalidEcosystemError,
+  type EcosystemProps,
+} from './Ecosystem';

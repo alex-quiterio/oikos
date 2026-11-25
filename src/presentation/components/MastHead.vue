@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAtlasStore } from '@presentation/stores';
+import LogoMark from './LogoMark.vue';
 
 const store = useAtlasStore();
 </script>
@@ -7,7 +8,11 @@ const store = useAtlasStore();
 <template>
   <header class="masthead pad">
     <div class="mast-in">
-      <span class="journal">Ecosystem Metabolism</span>
+      <span class="journal">
+        <span class="mark"><LogoMark /></span>
+        Oikos
+        <em>the household accounts of living places</em>
+      </span>
       <span class="meta">Working atlas · open data · v0.2</span>
     </div>
     <nav class="ecotabs" role="tablist" aria-label="Ecosystem">

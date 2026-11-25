@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { createPinia } from 'pinia';
 import { nextTick } from 'vue';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { AtlasService } from '@application';
 import { StaticCatalogue } from '@infrastructure';
 import { App } from '@presentation/components';
@@ -10,14 +10,20 @@ import { configureAtlas } from '@presentation/stores';
 function mountApp() {
   history.replaceState(null, '', '#');
   configureAtlas(new AtlasService(new StaticCatalogue()));
-  return mount(App, { global: { plugins: [createPinia()] }, attachTo: document.body });
+  return mount(App, {
+    global: { plugins: [createPinia()] },
+    attachTo: document.body,
+  });
 }
 
 describe('App', () => {
   test('opens the ecosystem and scenario named in the URL hash', async () => {
     history.replaceState(null, '', '#coral-reef--bleaching');
     configureAtlas(new AtlasService(new StaticCatalogue()));
-    const w = mount(App, { global: { plugins: [createPinia()] }, attachTo: document.body });
+    const w = mount(App, {
+      global: { plugins: [createPinia()] },
+      attachTo: document.body,
+    });
     await nextTick();
     expect(w.find('h1').text()).toBe('Caribbean coral reef');
     expect(w.text()).toContain('Heat bleaching');
@@ -37,11 +43,14 @@ describe('App', () => {
   test('switches ecosystem and scenario from the controls', async () => {
     const w = mountApp();
     const tabs = w.findAll('.ecotab');
-    expect(tabs.length).toBe(4);
-    await tabs[2]!.trigger('click');
+    expect(tabs.length).toBe(new StaticCatalogue().list().length);
+    const kelp = tabs.find(t => t.text().includes('kelp forest'));
+    await kelp!.trigger('click');
     expect(w.find('h1').text()).toBe('Northeast Pacific kelp forest');
     await w.findAll('.seg button')[1]!.trigger('click');
-    expect(w.find('.ptab[aria-selected="true"]').text()).toBe('Scenario');
+    expect(w.find('.ptab[aria-selected="true"]').text()).toBe(
+      'Scenario',
+    );
     expect(w.text()).toContain('What we do not know');
     w.unmount();
   });
@@ -50,7 +59,11 @@ describe('App', () => {
     const w = mountApp();
     await w
       .findAll('.node')
-      [w.findAll('.node').findIndex(n => n.text().includes('Rabbits'))]!.trigger('click');
+      [
+        w
+          .findAll('.node')
+          .findIndex(n => n.text().includes('Rabbits'))
+      ]!.trigger('click');
     expect(w.find('.panel').text()).toContain('Takes in');
     await w.find('.panel .btn').trigger('click');
     expect(w.find('.status').exists()).toBe(true);
@@ -72,6 +85,21 @@ describe('App', () => {
     const all = w.findAll('tbody tr').length;
     await w.findAll('.panel .chip')[0]!.trigger('click');
     expect(w.findAll('tbody tr').length).toBeLessThan(all);
+    w.unmount();
+  });
+
+  test('shows system health, and the collapse chart steps through removals', async () => {
+    const w = mountApp();
+    expect(w.find('.health').text()).toContain('100%');
+    await w.findAll('.ptab')[2]!.trigger('click');
+    expect(w.find('.collapse svg').exists()).toBe(true);
+    const slider = w.find('.collapse input[type="range"]');
+    await slider.setValue(4);
+    await vi.waitFor(
+      () => expect(w.find('.health').text()).not.toContain('100%'),
+      { timeout: 2000 },
+    );
+    expect(w.find('.status').text()).toContain('Removed:');
     w.unmount();
   });
 });

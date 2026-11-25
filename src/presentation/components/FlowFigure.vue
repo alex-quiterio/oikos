@@ -6,15 +6,31 @@ import FlowMap from './FlowMap.vue';
 
 const store = useAtlasStore();
 const flowNames = computed(() =>
-  [...new Set(store.ecosystem.flows.map(f => store.ecosystem.flowLabels[f.type] ?? FLOW_TYPES[f.type].name))]
-    .join(', ')
-    .toLowerCase(),
+  [
+    ...new Set(
+      store.ecosystem.flows.map(
+        f =>
+          store.ecosystem.flowLabels[f.type] ??
+          FLOW_TYPES[f.type].name,
+      ),
+    ),
+  ]
+    .map(n => n.toLowerCase())
+    .reduce(
+      (text, n, i, all) =>
+        i === 0
+          ? n
+          : `${text}${i === all.length - 1 ? ' and ' : ', '}${n}`,
+      '',
+    ),
 );
 const groups = computed(() => {
-  const present = new Set(store.ecosystem.organisms.map(o => o.group));
-  return (Object.keys(GROUP_NAMES) as (keyof typeof GROUP_NAMES)[]).filter(
-    g => g !== 'store' && present.has(g),
+  const present = new Set(
+    store.ecosystem.organisms.map(o => o.group),
   );
+  return (
+    Object.keys(GROUP_NAMES) as (keyof typeof GROUP_NAMES)[]
+  ).filter(g => g !== 'store' && present.has(g));
 });
 const edge = computed(() => store.hoveredEdge);
 const eco = computed(() => store.ecosystem);
@@ -22,7 +38,10 @@ const kindText = computed(() => {
   const e = edge.value;
   if (!e) return '';
   if (!e.isControl)
-    return (eco.value.flowLabels[e.type as 'energy'] ?? FLOW_TYPES[e.type].name).toLowerCase();
+    return (
+      eco.value.flowLabels[e.type as 'energy'] ??
+      FLOW_TYPES[e.type].name
+    ).toLowerCase();
   return e.kind === 'release'
     ? 'control: when the predator falls, the prey rises'
     : 'control: when this rises, the other is pressed down';
@@ -33,26 +52,36 @@ const kindText = computed(() => {
   <figure>
     <FlowMap />
     <figcaption>
-      <b>Figure 1.</b> Flows of {{ flowNames }} in the {{ eco.name }}. Line weight is a relative guess for
-      comparison, line style shows evidence, and a grey shadow shows the reference state.
+      <b>Figure 1.</b> Flows of {{ flowNames }} in the {{ eco.name }}.
+      Line weight is a relative guess for comparison, line style shows
+      evidence, and a grey shadow shows the reference state.
       <b>Scenario: {{ store.scenario.name }}.</b>
     </figcaption>
     <p class="readout" aria-live="polite">
       <template v-if="edge">
-        <b>{{ eco.organism(edge.from).name }} → {{ eco.organism(edge.to).name }}</b> · {{ kindText }} ·
-        {{ edge.label }} ·
+        <b
+          >{{ eco.organism(edge.from).name }} →
+          {{ eco.organism(edge.to).name }}</b
+        >
+        · {{ kindText }} · {{ edge.label }} ·
         <b>{{ edge.evidence }}</b>
         <template v-if="edge.note"><br />{{ edge.note }}</template>
       </template>
       <template v-else
-        >Hover or tap a flow to read it. Click an organism to follow what it takes in and gives out.</template
+        >Hover or tap a flow to read it. Click an organism to follow
+        what it takes in and gives out.</template
       >
     </p>
     <div class="legend" aria-hidden="true">
       <span v-for="g in groups" :key="g"
-        ><i :style="{ background: `var(--${g})` }" />{{ GROUP_NAMES[g].toLowerCase() }}</span
+        ><i :style="{ background: `var(--${g})` }" />{{
+          GROUP_NAMES[g].toLowerCase()
+        }}</span
       >
-      <span><i class="sq" style="background: var(--store)" />store or source</span>
+      <span
+        ><i class="sq" style="background: var(--store)" />store or
+        source</span
+      >
       <span>◆ documented ◇ proposed ? contested keystone (lens)</span>
     </div>
     <div class="legend" aria-hidden="true">
@@ -135,9 +164,44 @@ const kindText = computed(() => {
       >
       <span
         ><svg width="38" height="12">
-          <line x1="1" y1="6" x2="30" y2="6" stroke="var(--ctl)" stroke-width="2" stroke-dasharray="7 5" />
-          <rect x="31" y="1" width="3" height="10" fill="var(--ctl)" /></svg
+          <line
+            x1="1"
+            y1="6"
+            x2="30"
+            y2="6"
+            stroke="var(--ctl)"
+            stroke-width="2"
+            stroke-dasharray="7 5"
+          />
+          <rect
+            x="31"
+            y="1"
+            width="3"
+            height="10"
+            fill="var(--ctl)"
+          /></svg
         >control, not a flow</span
+      >
+    </div>
+    <div class="legend stresskey" aria-hidden="true">
+      <span class="lab">Supply</span>
+      <span class="s-ok"
+        ><i style="background: var(--sc)" />holding</span
+      >
+      <span class="s-mild"
+        ><i style="background: var(--sc)" />mild stress</span
+      >
+      <span class="s-high"
+        ><i style="background: var(--sc)" />high stress</span
+      >
+      <span class="s-severe"
+        ><i style="background: var(--sc)" />severe stress</span
+      >
+      <span class="s-lost"
+        ><i style="background: var(--sc)" />lost</span
+      >
+      <span class="s-surge"
+        ><i style="background: var(--sc)" />surging</span
       >
     </div>
   </figure>

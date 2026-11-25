@@ -1,4 +1,11 @@
-import type { Control, Ecosystem, Evidence, Flow, FlowType, OrganismId } from '@domain/ecosystem';
+import type {
+  Control,
+  Ecosystem,
+  Evidence,
+  Flow,
+  FlowType,
+  OrganismId,
+} from '@domain/ecosystem';
 
 /**
  * Scenario model. Each organism has a supply index, 1 in the reference state.
@@ -38,12 +45,16 @@ export interface Simulation {
 /** Share of a change in inflow that a store passes on. A modelling convention, not a measured quantity. */
 export const STORE_RESPONSE = 0.4;
 
-export const isModelled = (e: Evidence): boolean => e === 'documented' || e === 'likely';
+export const isModelled = (e: Evidence): boolean =>
+  e === 'documented' || e === 'likely';
 
 interface Network {
   readonly ids: readonly OrganismId[];
   readonly stores: ReadonlySet<OrganismId>;
-  readonly reference: ReadonlyMap<OrganismId, ReadonlyMap<FlowType, number>>;
+  readonly reference: ReadonlyMap<
+    OrganismId,
+    ReadonlyMap<FlowType, number>
+  >;
   readonly inflows: ReadonlyMap<OrganismId, readonly Flow[]>;
   readonly releases: ReadonlyMap<OrganismId, readonly Control[]>;
   readonly pressures: ReadonlyMap<OrganismId, readonly Control[]>;
@@ -56,9 +67,15 @@ function networkOf(eco: Ecosystem): Network {
   if (cached) return cached;
   const ids = eco.organisms.map(o => o.id);
   const reference = new Map<OrganismId, Map<FlowType, number>>();
-  const inflows = new Map<OrganismId, Flow[]>(ids.map(id => [id, []]));
-  const releases = new Map<OrganismId, Control[]>(ids.map(id => [id, []]));
-  const pressures = new Map<OrganismId, Control[]>(ids.map(id => [id, []]));
+  const inflows = new Map<OrganismId, Flow[]>(
+    ids.map(id => [id, []]),
+  );
+  const releases = new Map<OrganismId, Control[]>(
+    ids.map(id => [id, []]),
+  );
+  const pressures = new Map<OrganismId, Control[]>(
+    ids.map(id => [id, []]),
+  );
   for (const f of eco.flows) {
     if (!isModelled(f.evidence)) continue;
     const per = reference.get(f.to) ?? new Map<FlowType, number>();
@@ -70,18 +87,31 @@ function networkOf(eco: Ecosystem): Network {
     if (!isModelled(c.evidence)) continue;
     (c.kind === 'release' ? releases : pressures).get(c.to)?.push(c);
   }
-  const stores = new Set(eco.organisms.filter(o => o.group === 'store').map(o => o.id));
-  const net = { ids, stores, reference, inflows, releases, pressures };
+  const stores = new Set(
+    eco.organisms.filter(o => o.group === 'store').map(o => o.id),
+  );
+  const net = {
+    ids,
+    stores,
+    reference,
+    inflows,
+    releases,
+    pressures,
+  };
   networks.set(eco, net);
   return net;
 }
 
-export function simulate(eco: Ecosystem, iv: Intervention = {}): Simulation {
+export function simulate(
+  eco: Ecosystem,
+  iv: Intervention = {},
+): Simulation {
   const net = networkOf(eco);
   const removed = iv.removed ?? new Set<OrganismId>();
   const factor = (id: string): number => iv.factors?.[id] ?? 1;
   const base: Record<OrganismId, number> = {};
-  for (const id of net.ids) base[id] = removed.has(id) ? 0 : (iv.abundance?.[id] ?? 1);
+  for (const id of net.ids)
+    base[id] = removed.has(id) ? 0 : (iv.abundance?.[id] ?? 1);
   let cur: Record<OrganismId, number> = { ...base };
   const at = (id: OrganismId): number => cur[id] ?? 0;
 
@@ -94,20 +124,36 @@ export function simulate(eco: Ecosystem, iv: Intervention = {}): Simulation {
       if (ref) {
         const sums = new Map<FlowType, number>();
         for (const f of net.inflows.get(id) ?? [])
-          sums.set(f.type, (sums.get(f.type) ?? 0) + f.weight * factor(f.id) * at(f.from));
+          sums.set(
+            f.type,
+            (sums.get(f.type) ?? 0) +
+              f.weight * factor(f.id) * at(f.from),
+          );
         for (const [type, total] of ref) {
           if (type === 'seeds') continue;
-          limit = Math.min(limit, Math.min(1, (sums.get(type) ?? 0) / total));
+          limit = Math.min(
+            limit,
+            Math.min(1, (sums.get(type) ?? 0) / total),
+          );
         }
       }
       let release = 1;
       for (const c of net.releases.get(id) ?? [])
-        release += c.strength * factor(c.id) * (1 - Math.min(at(c.from), 1));
+        release +=
+          c.strength * factor(c.id) * (1 - Math.min(at(c.from), 1));
       let pressure = 0;
       for (const c of net.pressures.get(id) ?? [])
-        pressure += c.strength * factor(c.id) * Math.max(0, at(c.from) - 1);
-      const raw = Math.min(3, ((base[id] ?? 0) * limit * Math.min(release, 3)) / (1 + pressure));
-      const target = net.stores.has(id) && (base[id] ?? 0) > 0 ? 1 - (1 - raw) * STORE_RESPONSE : raw;
+        pressure +=
+          c.strength * factor(c.id) * Math.max(0, at(c.from) - 1);
+      const raw = Math.min(
+        3,
+        ((base[id] ?? 0) * limit * Math.min(release, 3)) /
+          (1 + pressure),
+      );
+      const target =
+        net.stores.has(id) && (base[id] ?? 0) > 0
+          ? 1 - (1 - raw) * STORE_RESPONSE
+          : raw;
       next[id] = 0.5 * at(id) + 0.5 * target;
       delta += Math.abs((next[id] ?? 0) - at(id));
     }
@@ -116,7 +162,9 @@ export function simulate(eco: Ecosystem, iv: Intervention = {}): Simulation {
   }
 
   const flowStrength: Record<string, number> = {};
-  for (const f of eco.flows) flowStrength[f.id] = factor(f.id) * at(f.from) * Math.max(1, at(f.to));
+  for (const f of eco.flows)
+    flowStrength[f.id] =
+      factor(f.id) * at(f.from) * Math.max(1, at(f.to));
   const controlActivity: Record<string, number> = {};
   for (const c of eco.controls) {
     controlActivity[c.id] =
@@ -130,7 +178,8 @@ export function simulate(eco: Ecosystem, iv: Intervention = {}): Simulation {
     if (!total) continue;
     let sum = 0;
     for (const f of net.inflows.get(id) ?? [])
-      if (f.type === 'seeds') sum += f.weight * factor(f.id) * at(f.from);
+      if (f.type === 'seeds')
+        sum += f.weight * factor(f.id) * at(f.from);
     recruitment[id] = Math.min(1, sum / total);
   }
   return { supply: cur, recruitment, flowStrength, controlActivity };
@@ -139,5 +188,7 @@ export function simulate(eco: Ecosystem, iv: Intervention = {}): Simulation {
 /** Organisms that receive at least one modelled flow. Stores and sources are excluded. */
 export function modelledOrganisms(eco: Ecosystem): OrganismId[] {
   const net = networkOf(eco);
-  return eco.organisms.filter(o => o.group !== 'store' && net.reference.has(o.id)).map(o => o.id);
+  return eco.organisms
+    .filter(o => o.group !== 'store' && net.reference.has(o.id))
+    .map(o => o.id);
 }

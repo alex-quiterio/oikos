@@ -25,5 +25,12 @@
       "@presentation/*": ["src/presentation/*"]
     }
   },
-  "include": ["src/**/*", "src/**/*.vue", "tests/**/*", "scripts/**/*", "vite.config.ts", "eslint.config.js"]
+  "include": [
+    "src/**/*",
+    "src/**/*.vue",
+    "tests/**/*",
+    "scripts/**/*",
+    "vite.config.ts",
+    "eslint.config.js"
+  ]
 }

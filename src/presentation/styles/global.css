@@ -16,6 +16,12 @@
   --phosphorus: #ae2858;
   --seeds: #583cab;
   --ctl: #5a6a61;
+  --stress-surge: #2a78c8;
+  --stress-mild: #c99a00;
+  --stress-high: #d9561a;
+  --stress-severe: #be1e2d;
+  --stress-lost: #6b1a22;
+  --stress-ok: var(--accent);
   --plant: #cbe0bc;
   --alga: #d6e4b2;
   --fungus: #e7d3b5;
@@ -24,7 +30,9 @@
   --bird: #c4d5e8;
   --mammal: #ebcbc3;
   --store: #dde2dc;
-  --font-serif: 'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-serif:
+    'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Georgia,
+    serif;
   --font-body: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
 }
@@ -45,6 +53,11 @@
     --phosphorus: #f0709a;
     --seeds: #a890f2;
     --ctl: #9daea4;
+    --stress-surge: #62b4ff;
+    --stress-mild: #f2cf4b;
+    --stress-high: #ff8a3d;
+    --stress-severe: #ff5c66;
+    --stress-lost: #a8404b;
     --plant: #2f4d2d;
     --alga: #3a4d2a;
     --fungus: #57432c;
@@ -72,6 +85,11 @@
   --phosphorus: #f0709a;
   --seeds: #a890f2;
   --ctl: #9daea4;
+  --stress-surge: #62b4ff;
+  --stress-mild: #f2cf4b;
+  --stress-high: #ff8a3d;
+  --stress-severe: #ff5c66;
+  --stress-lost: #a8404b;
   --plant: #2f4d2d;
   --alga: #3a4d2a;
   --fungus: #57432c;
@@ -244,10 +262,18 @@ h1 {
   opacity: 0.5;
 }
 .evbar .debated {
-  background: repeating-linear-gradient(90deg, var(--ink) 0 4px, transparent 4px 7px);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 4px,
+    transparent 4px 7px
+  );
 }
 .evbar .unknown {
-  background: repeating-linear-gradient(90deg, var(--muted) 0 1px, transparent 1px 4px);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--muted) 0 1px,
+    transparent 1px 4px
+  );
 }
 
 /* controls */
@@ -662,7 +688,10 @@ figcaption b {
 /* prose sections */
 .prose {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 340px), 1fr)
+  );
   gap: 24px 40px;
   border-top: 1px solid var(--ink);
   padding-top: 20px;
@@ -767,11 +796,54 @@ figcaption b {
 .node.removed .body {
   stroke-dasharray: 3 4;
 }
-.node.low .body {
-  stroke-dasharray: 5 4;
-  stroke: var(--phosphorus);
+.node.stress-mild .body,
+.node.stress-high .body,
+.node.stress-severe .body,
+.node.stress-lost .body,
+.node.stress-surge .body {
+  stroke: var(--sc);
   stroke-opacity: 1;
-  stroke-width: 2.5;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 5px var(--sc));
+}
+.node.stress-high .body {
+  stroke-width: 5;
+}
+.node.stress-severe .body {
+  stroke-width: 6;
+  stroke-dasharray: 9 4;
+}
+.node.stress-lost .body {
+  stroke-dasharray: 3 4;
+  filter: none;
+}
+.node.stress-surge .body {
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+.node.stress-mild {
+  --sc: var(--stress-mild);
+}
+.node.stress-high {
+  --sc: var(--stress-high);
+}
+.node.stress-severe {
+  --sc: var(--stress-severe);
+}
+.node.stress-lost {
+  --sc: var(--stress-lost);
+}
+.node.stress-surge {
+  --sc: var(--stress-surge);
+}
+.node .dlt {
+  font-weight: 600;
+}
+.node[class*='stress-mild'] .dlt,
+.node[class*='stress-high'] .dlt,
+.node[class*='stress-severe'] .dlt,
+.node[class*='stress-surge'] .dlt {
+  fill: var(--sc);
 }
 .edge .line {
   fill: none;
@@ -876,4 +948,337 @@ figcaption b {
 }
 .row .sw {
   display: block;
+}
+
+/* system health */
+.health {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 3px;
+  padding: 12px 14px;
+  --h: var(--accent);
+}
+.health.strained {
+  --h: var(--energy);
+}
+.health.failing {
+  --h: var(--phosphorus);
+}
+.health-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: baseline;
+}
+.health-pct {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--h);
+}
+.health-word {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--h);
+}
+.health-delta {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.health-track {
+  position: relative;
+  height: 10px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.health-track i {
+  display: block;
+  height: 100%;
+  background: var(--h);
+  transition: width 0.35s ease;
+}
+.health-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink);
+  opacity: 0.5;
+}
+.health-note {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+.collapse {
+  margin: 0;
+}
+.collapse svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.collapse .grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.collapse .axis {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--muted);
+}
+.collapse .axis.end {
+  text-anchor: end;
+}
+.collapse .axis.mid {
+  text-anchor: middle;
+}
+.collapse .intact {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+.collapse .mean {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.collapse .pt {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 2;
+  cursor: pointer;
+}
+.collapse .pt.on {
+  fill: var(--accent);
+}
+.collapse figcaption {
+  display: flex;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.collapse .key i {
+  display: inline-block;
+  width: 18px;
+  height: 0;
+  border-top: 2.5px solid var(--accent);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.collapse .key i.k-mean {
+  border-top: 1.5px dashed var(--muted);
+}
+.slider {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+.slider input {
+  accent-color: var(--accent);
+  min-width: 0;
+}
+
+/* health: sticky, stacked by stress, trend and step readout */
+.health {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  box-shadow: 0 6px 14px -10px rgba(0, 0, 0, 0.5);
+}
+.health.good {
+  --h: var(--stress-ok);
+}
+.health.strained {
+  --h: var(--stress-mild);
+}
+.health.failing {
+  --h: var(--stress-severe);
+}
+.health-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 18px;
+  align-items: end;
+}
+.health-nums {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 18px;
+  align-items: baseline;
+}
+.health-nums .big {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--h);
+  font-variant-numeric: tabular-nums;
+  min-width: 3.2ch;
+}
+.health-nums .stat {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.health-nums .stat b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.health-delta.down {
+  color: var(--stress-severe);
+  font-weight: 600;
+}
+.health-delta.up {
+  color: var(--stress-surge);
+  font-weight: 600;
+}
+.spark {
+  width: 150px;
+  height: 36px;
+}
+.spark polyline {
+  fill: none;
+  stroke: var(--h);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.spark circle {
+  fill: var(--h);
+}
+.spark .base {
+  stroke: var(--line);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.stackbar {
+  display: flex;
+  height: 12px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--bg);
+}
+.stackbar i {
+  display: block;
+  height: 100%;
+  background: var(--sc);
+  transition: width 0.5s ease;
+}
+.stress-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+.stress-chips span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.stress-chips i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--sc);
+}
+.stress-chips b {
+  color: var(--ink);
+}
+.stress-chips .zero {
+  opacity: 0.45;
+}
+.s-ok {
+  --sc: var(--stress-ok);
+}
+.s-surge {
+  --sc: var(--stress-surge);
+}
+.s-mild {
+  --sc: var(--stress-mild);
+}
+.s-high {
+  --sc: var(--stress-high);
+}
+.s-severe {
+  --sc: var(--stress-severe);
+}
+.s-lost {
+  --sc: var(--stress-lost);
+}
+.steprow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 8px 0;
+  font-variant-numeric: tabular-nums;
+}
+.steprow div {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 6px 8px;
+}
+.steprow b {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+.steprow small {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.play {
+  border: 1px solid var(--ink);
+  background: transparent;
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+.play:hover,
+.play[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--bg);
+}
+.collapse .pt.on {
+  fill: var(--h, var(--accent));
+}
+
+.journal {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.journal .mark {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+}
+.journal .mark :deep(svg),
+.journal .mark svg {
+  width: 100%;
+  height: 100%;
+}
+.journal em {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-left: 4px;
 }
