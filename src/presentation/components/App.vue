@@ -5,7 +5,7 @@ import ControlBar from './ControlBar.vue';
 import EcosystemHeader from './EcosystemHeader.vue';
 import HealthMeter from './HealthMeter.vue';
 import FlowFigure from './FlowFigure.vue';
-import MastHead from './MastHead.vue';
+import EcosystemSidebar from './EcosystemSidebar.vue';
 import ProseSections from './ProseSections.vue';
 import SidePanel from './SidePanel.vue';
 import StatusBar from './StatusBar.vue';
@@ -19,8 +19,12 @@ const onEscape = (): void => {
 </script>
 
 <template>
-  <div @keydown.esc="onEscape">
-    <MastHead />
+  <div
+    class="shell"
+    :class="{ 'is-open': store.sidebarOpen }"
+    @keydown.esc="onEscape"
+  >
+    <EcosystemSidebar />
     <main class="wrap pad">
       <EcosystemHeader />
       <ControlBar />

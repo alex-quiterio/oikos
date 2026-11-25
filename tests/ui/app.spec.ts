@@ -42,10 +42,11 @@ describe('App', () => {
 
   test('switches ecosystem and scenario from the controls', async () => {
     const w = mountApp();
-    const tabs = w.findAll('.ecotab');
+    const tabs = w.findAll('.eco-item');
     expect(tabs.length).toBe(new StaticCatalogue().list().length);
     const kelp = tabs.find(t => t.text().includes('kelp forest'));
     await kelp!.trigger('click');
+    expect(w.find('.sidebar').classes()).not.toContain('open');
     expect(w.find('h1').text()).toBe('Northeast Pacific kelp forest');
     await w.findAll('.seg button')[1]!.trigger('click');
     expect(w.find('.ptab[aria-selected="true"]').text()).toBe(
@@ -100,6 +101,24 @@ describe('App', () => {
       { timeout: 2000 },
     );
     expect(w.find('.status').text()).toContain('Removed:');
+    w.unmount();
+  });
+
+  test('the ecosystem list folds after a pick and unfolds on hover', async () => {
+    const w = mountApp();
+    await nextTick();
+    expect(w.find('.sidebar').classes()).toContain('open');
+    expect(w.findAll('.eco-item').length).toBe(10);
+    await w.findAll('.eco-item')[1]!.trigger('click');
+    expect(w.find('.sidebar').classes()).not.toContain('open');
+    expect(w.findAll('.eco-item').length).toBe(0);
+    expect(w.find('.rail-label').text()).toContain('Veluwe');
+    expect(w.find('.shell').classes()).not.toContain('is-open');
+    await w.find('.sidebar').trigger('mouseenter');
+    expect(w.findAll('.eco-item').length).toBe(10);
+    expect(w.find('.sidebar').classes()).toContain('peek');
+    await w.find('.sidebar').trigger('keydown', { key: 'Escape' });
+    expect(w.findAll('.eco-item').length).toBe(0);
     w.unmount();
   });
 });

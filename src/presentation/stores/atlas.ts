@@ -53,6 +53,8 @@ export const useAtlasStore = defineStore('atlas', () => {
   const focusIds = ref<string[] | null>(null);
   const evidenceFilter = ref<Evidence[]>([...EVIDENCE_ORDER]);
   const hoveredId = ref<string | null>(null);
+  /** The ecosystem list is open until you pick one, then it folds into a rail. */
+  const sidebarOpen = ref(true);
 
   // --- domain lookups
   const entry = computed<AtlasEntry>(() =>
@@ -308,6 +310,7 @@ export const useAtlasStore = defineStore('atlas', () => {
     removed.value = [];
     focusIds.value = null;
     hiddenTypes.value = [];
+    sidebarOpen.value = false;
     stopCollapse();
     trail.value = [];
     trail.value = [
@@ -400,6 +403,12 @@ export const useAtlasStore = defineStore('atlas', () => {
   const toggleUnknown = (): void => {
     showUnknown.value = !showUnknown.value;
   };
+  const setSidebar = (open: boolean): void => {
+    sidebarOpen.value = open;
+  };
+  const toggleSidebar = (): void => {
+    sidebarOpen.value = !sidebarOpen.value;
+  };
   const hover = (id: string | null): void => {
     hoveredId.value = id;
   };
@@ -419,6 +428,7 @@ export const useAtlasStore = defineStore('atlas', () => {
     focusIds,
     evidenceFilter,
     hoveredId,
+    sidebarOpen,
     entry,
     ecosystem,
     layout,
@@ -456,5 +466,7 @@ export const useAtlasStore = defineStore('atlas', () => {
     toggleMotion,
     toggleUnknown,
     hover,
+    setSidebar,
+    toggleSidebar,
   };
 });

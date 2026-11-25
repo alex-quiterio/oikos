@@ -141,4 +141,13 @@ describe('atlas store', () => {
       'severe',
     );
   });
+
+  test('the sidebar starts open and folds once an ecosystem is chosen', () => {
+    const s = useAtlasStore();
+    expect(s.sidebarOpen).toBe(true);
+    s.showEcosystem('veluwe');
+    expect(s.sidebarOpen).toBe(false);
+    s.toggleSidebar();
+    expect(s.sidebarOpen).toBe(true);
+  });
 });
